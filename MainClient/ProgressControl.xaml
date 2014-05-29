@@ -1,0 +1,11 @@
+﻿<UserControl x:Class="Launcher.ProgressControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" Height="4" Width="505" MouseLeftButtonUp="UserControl_MouseLeftButtonUp" PreviewMouseLeftButtonUp="UserControl_PreviewMouseLeftButtonUp">
+    <Grid Background="#FFDFDFDF" PreviewMouseLeftButtonUp="Grid_PreviewMouseLeftButtonUp">
+        <Grid x:Name="ProgressView" HorizontalAlignment="Left" Width="0" Background="#FF88d338"/>
+
+    </Grid>
+</UserControl>

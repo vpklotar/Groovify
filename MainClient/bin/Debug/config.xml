@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SciLorsGrooveDownloaderSettings>
+  <DownloadDir>C:\Users\Tim\Desktop\SciLor's Grooveshark.com Downloader\Downloads</DownloadDir>
+  <NamePattern>&lt;artist&gt; - &lt;song&gt; - &lt;album&gt;</NamePattern>
+  <UncheckAfterAdd>true</UncheckAfterAdd>
+  <AutoCheckUpdates>true</AutoCheckUpdates>
+  <ExistingFileHandling>Skip</ExistingFileHandling>
+  <Proxy></Proxy>
+  <ProxyUser></ProxyUser>
+  <ProxyPass></ProxyPass>
+  <Mp3Gain>false</Mp3Gain>
+  <Mp3GainDb>89</Mp3GainDb>
+</SciLorsGrooveDownloaderSettings>

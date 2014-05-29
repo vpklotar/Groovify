@@ -1,0 +1,130 @@
+<SciLor english="English" name="English" iso="en" icon="english.gif" version="v0.4.10.0">
+  <!-- 
+    Take the Isocode from: http://msdn.microsoft.com/en-us/goglobal/bb896001.aspx 
+    Please only select the country specific one, if there are different types of this language in different countries.
+  -->
+  
+  <mniFile string="File" />
+  <mniCheckForUpdates string="Check for Updates" />
+  <mniAvailableSoftware string="SciLor's available Software" />
+  <mniSciLorsWebsite string="SciLor's Website" />
+  <mniExit string="Exit" />
+  <mniExtra string="Extra" />
+  <mniReconnect string="Reconnect" />
+  <mniClearDownloadList string="Clear Download List" />
+  <mniGoToDownloadDir string="Open Download Directory" />
+  <mniLanguage string="Language" />
+  <mniDonate string="Like this Software?" />
+
+  <mniHelp string="Help" /><!-- v0.4.9l -->
+  <mniCommandLine string="Commandline" /><!-- v0.4.9l -->
+  <mniDebugMode string="Restart in Debug Mode" /><!-- v0.4.9l -->
+  <mniSupport string="Support Forums" /><!-- v0.4.9l -->
+  
+  <btnSearch string="Search" />
+  <btnPopularSongs string="Popular Songs" />
+  <btnSelectAll string="Select All" />
+  <btnDeselectAll string="Deselect All" />
+  <btnInvertSelection string="Invert Selection" />
+  <btnAddToDownloadList string="Add to Download queue" />
+  <btnDownload string="Download" />
+  <tabSearchLoad string="Search and Download" />
+  <tabExtFunctions string="Extended Functions" />
+  <tabSettings string="Settings" />
+  <tabExFuncBatch string="Batch Search &amp; Add" />
+  <grpBatchSearch string="Description" />
+  <txtBatchDescription string="SciLor's Batch Search &amp; Add is a feature you to enter a list of searches (One search per line). Those searches are done one by one and the first of each gets added to the downloader list!" />
+  <btnBatchSearch string="Search &amp; Add" />
+  <btnImportBatch string="Import from file" />
+  <tabExFuncPlaylists string="Dump Playlists" />
+  <grpLogin string="Grooveshark(tm) Login" />
+  <lblLoginName string="Username:" />
+  <lblLoginPass string="Password:" />
+  <btnLoginFetchPlaylists string="Login &amp; Fetch" />
+  <grpPlaylists string="Playlists" />
+  <btnFetchPlaylists string="Copy to Search" />
+  <grpPlaylistById string="Playlist by id" /><!-- v0.4.9e -->
+  <btnFetchPlaylistById string="Playlist to Search" /><!-- v0.4.9e -->
+  <tabConfigDownload string="Download" />
+  <grpBaseDir string="Base Download Directory" />
+  <btnBaseDir string="Select Directory" />
+  <grpPattern string="Song naming pattern" />
+  <lblPatternInfo string="Available name variables: &lt;artist&gt;, &lt;song&gt;, &lt;album&gt;, &lt;year&gt;, &lt;tracknum&gt; Backslashes (&quot;\&quot;) will create subdirs" />
+  <grpExistingFileHandling string="Existing file handling" />
+  <rbtExistingSkip string="Skip" />
+  <rbtExistingOverwrite string="Overwrite" />
+  <rbtExistingAutoRename string="Auto Rename" />
+  <btnSave string="Save" />
+  <tabConfigVarious string="Various" />
+  <grpVarious string="Various Settings" />
+  <chkUncheckSearchResults string="Uncheck search results after adding them to the download list" />
+  <chkAutoCheckUpdates string="Automatically check for updates" />
+  <tabConfigConnection string="Connection" /><!-- v0.4.9 -->
+  <grpProxy string="Proxy" /><!-- v0.4.9 -->
+  <lblProxy string="Proxy:" /><!-- v0.4.9 -->
+  <lblProxyUser string="Username:" /><!-- v0.4.9f -->
+  <lblProxyPass string="Password:" /><!-- v0.4.9f -->
+  <btnProxyTest string="Test Proxy" /><!-- v0.4.9f -->
+  <LangSkinfileMissing string="Skinfile missing:" />
+  <LangSongOnGroovesharkLoad string="Loading" /><!-- v0.4.9f --> 
+  <LangDagSearchContextMenuSongOnGrooveshark string="Open song on Grooveshark(tm)" /><!-- v0.4.9f -->
+  <LangDagSearchContextMenuGetBitrate string="Fetch Bitrate" /><!-- v0.4.9p -->
+  <LangDagSearchContextMenuAlbumResults string="Search for Album" />
+  <LangDagSearchContextMenuArtistResults string="Search for Artist" />
+  <LangBrokenDownloadList string="Error: Download list corrupted, loading empty list..." />
+  <LangInvalidNamingPattern string="Song naming pattern cannot be empty or only consist of invalid filename characters!" />
+  <LangLoginUnsuccessful string="Login unsuccessful, please try again!" />
+  <LangRemoveEntry string="Remove entry" />
+  <LangSearching string="Searching..." />
+  <LangSearchingPopular string="Searching popular songs..." />
+  <LangDownload string="Download" />
+  <LangStopDownload string="Stop Downloading" />
+  <LangStartDownload string="Start downloading" />
+  <LangFileSkipped string="File skipped" />
+  <LangDownloadAbort string="Download aborted" />
+  <LangManualAbort string="Manual abort:" />
+  <LangLblPatternPreview string="Preview:" />
+  <LangBatchSearching string="Batch searching..." />
+  <LangFetchingPlaylist string="Fetching Playlist" />
+  <LangStartReconnecting string="Start reconnecting..." />
+  <LangReconnected string="Reconnected!" />
+  <LangSearchingAlbum string="Searching for album" />
+  <LangSearchingArtist string="Searching for artist" />
+  <LangTableLoad string="Load" />
+  <LangTableArtist string="Artist" />
+  <LangTableTitle string="Title" />
+  <LangTableAlbum string="Album" />
+  <LangTableYear string="Year" />
+  <LangTableLength string="Length" /><!-- v0.4.9q -->
+  <LangTableBitrate string="Bitrate" /><!-- v0.4.9q -->
+  
+  <LangDagSearchContextMenuSelect string="Select" /><!-- v0.4.7 -->
+  <LangDagSearchContextMenuDeselect string="Deselect" /><!-- v0.4.7 -->
+
+  <LangBitrateLoading string="Loading Bitrate..." /><!-- v0.4.9p -->
+  <LangBitrateFailed string="Loading Bitrate failed." /><!-- v0.4.9p -->
+  <LangBitrate string="Bitrate" /><!-- v0.4.9p -->
+  
+  <LangUseTorError string="Problem running Tor" /><!-- v0.4.9r -->
+  <LangUseTorAnotherInstance string="Problem running Tor: Is there another instance running? (check taskmanager &quot;tor.exe&quot;)" /><!-- v0.4.9r -->
+  <LangUseTorAnotherInstanceMessageBox string="There is already a tor instance
+Do you want to try to use it?" /><!-- v0.4.9r -->
+  <LangUseTorKillOtherInstanceMessageBox string="There seems to be a problem with Tor.
+Do you want to try to force to exit all Tor instances?" /><!-- v0.4.9r -->
+  <LangUseTorKillOtherInstance string="Killing all tor and polipo processes" /><!-- v0.4.9r -->
+  <LangUseTorSuccessful string="Tor successfully loaded." /><!-- v0.4.9r -->
+  <LangUseTorError string="Problem with running Tor+Polipo. Maybe it is missing?" /><!-- v0.4.9r -->
+  
+  <LangUseMobile string="Using mobile grooveshark(tm), that may have limited functions (Maybe grooveshark(tm) is blocked in your country?)
+                 
+If you need all functions, try to use a proxy or tor (SciLors GrooveDownloader WithTor.bat)" /><!-- v0.4.9r -->
+  <LangUseTorCountry string="Loaded Tor, but had a german proxy, trying again..." /><!-- v0.4.9r -->
+  
+  <LangPostDownloadEvent string="Executing Post Download Event" /><!-- v0.4.9r -->
+  <LangPostAllDownloadEvent string="Executing All Download Event" /><!-- v0.4.9r -->
+    
+  <!-- The star(*) is replaced with the result count-->
+  <LangFoundResults string="Found * results" /><!-- v0.4.9r -->
+  
+  <chkMp3Gain string="Normalize the volume of downloaded songs (89dB default)" /><!-- v0.4.10.0 -->
+</SciLor>
