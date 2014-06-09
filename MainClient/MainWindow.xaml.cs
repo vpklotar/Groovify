@@ -126,7 +126,7 @@ namespace Launcher
                 ((GroovesharkPlaylistObject)Playlists.SelectedItem).Download();
             }
         }
-
+        String downloading = "";
         void Download_Click(object sender, RoutedEventArgs e)
         {
             if (Songs.SelectedItem != null)
@@ -134,12 +134,18 @@ namespace Launcher
                 GroovesharkSongObject song = (GroovesharkSongObject)Songs.SelectedItem;
                 DownloadPool.AddSongToDownloadQueue(song);
                 DownloadPool.Download();
+                downloading = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic) + "\\Groovify\\" + song.Artist + " - " + song.Album + " - " + song.Name + ".mp3";
             }
         }
 
         void DownloadPool_ProgressChanged(object sender, System.Net.DownloadProgressChangedEventArgs e)
         {
             Console.WriteLine("[" + DownloadPool.DownloadIndex + "] " + e.ProgressPercentage);
+            MainWindow.INSTANCE.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                MainWindow.INSTANCE.player.MediaFailed +=player_MediaFailed;
+                MainWindow.INSTANCE.player.Source = new Uri(downloading);
+            }));
         }
 
         void DownloadPool_DownloadComplete(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
@@ -220,6 +226,11 @@ namespace Launcher
                     totalSec = 0;
                     totalMin++;
                 }
+
+                if (Grooveshark.Length() == 0)
+                {
+                    //+Grooveshark.contentLength = playedSongs[playedSongsIndex].EstimatedDuration;
+                }
             }
             else if (Grooveshark.State() == NAudio.Wave.PlaybackState.Stopped)
             {
@@ -231,7 +242,8 @@ namespace Launcher
                 progress.Maximum = Grooveshark.Length();
                 progress.Value = (float)totalSec + totalMin * 60F;
                 TextBlock block = new TextBlock();
-                String s = (totalSec - totalMin * 60).ToString();
+                //String s = (totalSec - totalMin * 60).ToString();
+                String s = (totalSec).ToString();
                 if (s.Length < 2) s = "0" + s;
                 block.Inlines.Add(new Bold(new Run(totalMin + ":" + s)));
                 block.Inlines.Add(new Run("/"));
@@ -1342,6 +1354,7 @@ namespace Launcher
         private void player_MediaFailed(object sender, ExceptionRoutedEventArgs e)
         {
             Console.WriteLine(e.ErrorException.Message.ToString());
+            
         }
     }
 }

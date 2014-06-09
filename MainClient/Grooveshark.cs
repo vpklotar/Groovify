@@ -501,46 +501,108 @@ namespace Launcher
         public static void Play(string url)
         {
             Grooveshark.Stop();
+            var a = WebRequest.Create(url).GetResponse();
+
             System.Threading.ThreadPool.QueueUserWorkItem(new WaitCallback((Object o) =>
             {
                 using (Stream ms = new MemoryStream())
                 {
-                    var a = WebRequest.Create(url).GetResponse();
-                    //contentLength = a.ContentLength;
                     using (readStream = a.GetResponseStream())
                     {
                         //byte[] buffer = new byte[32768];
-                        byte[] buffer = new byte[512];
+                        byte[] buffer = new byte[256];
                         int read;
+                        //try
+                        //{
+                        //    while ((read = readStream.Read(buffer, 0, buffer.Length)) > 0)
+                        //    {
+                        //        position += read;
+                        //        ms.Write(buffer, 0, read);
+                        //        if (contentLength > 0)
+                        //        {
+                        //            break;
+                        //        }
+                        //        try
+                        //        {
+                        //            var m = new Mp3FileReader(ms);
+                        //            contentLength = (long)m.TotalTime.TotalSeconds;
+                        //        }
+                        //        catch (Exception exx)
+                        //        {
+                        //            Console.WriteLine("exx message: " + exx.Message);
+                        //        }
+                        //    }
+                        //}
+                        //catch (Exception ex)
+                        //{
+                        //    Console.WriteLine("ex message: " + ex.Message);
+                        //}
+                        ////contentLength = a.ContentLength;
+                        //while (readStream == null)
+                        //{
+                        //    System.Threading.Thread.Sleep(100);
+                        //}
+                        //byte[] buffer = new byte[32768];
+
+                        //byte[] buffer = new byte[2048];
+                        //int read;
                         try
                         {
+                            int iexx = 0;
+                            int nextReadTry = 0;
                             while ((read = readStream.Read(buffer, 0, buffer.Length)) > 0)
                             {
                                 position += read;
                                 ms.Write(buffer, 0, read);
+                                /*if (position < nextReadTry || contentLength > 0) continue;
+                                System.Threading.ThreadPool.QueueUserWorkItem(new WaitCallback((Object oo) =>
+                                {
+                                    try
+                                    {
+                                        var m = new Mp3FileReader(ms);
+                                        contentLength = (long)m.TotalTime.TotalSeconds;
+                                    }
+                                    catch (Exception exx)
+                                    {
+                                        Console.WriteLine("exx message: " + exx.Message);
+                                        iexx++;
+                                        nextReadTry += 1024;
+                                        if (iexx > 4)
+                                        {
+
+                                        }
+                                    }
+                                }));*/
                             }
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine(ex.Message);
+                            Console.WriteLine("ex message: " + ex.Message);
                         }
                     }
 
                     ms.Position = 0;
-                    using (WaveStream blockAlignedStream =
+                    try
+                    {
+                        using (WaveStream blockAlignedStream =
                         new BlockAlignReductionStream(
                             WaveFormatConversionStream.CreatePcmStream(
                                 new Mp3FileReader(ms))))
-                    {
-                        using (wave = new WaveOut(WaveCallbackInfo.FunctionCallback()))
                         {
-                            wave.Init(blockAlignedStream);
-                            wave.Play();
-                            while (wave.PlaybackState == PlaybackState.Playing)
+                            using (wave = new WaveOut(WaveCallbackInfo.FunctionCallback()))
                             {
-                                System.Threading.Thread.Sleep(100);
+                                wave.Init(blockAlignedStream);
+                                wave.Play();
+                                while (wave.PlaybackState == PlaybackState.Playing)
+                                {
+                                    System.Threading.Thread.Sleep(100);
+                                }
                             }
                         }
+                    }
+                    catch (Exception exxx)
+                    {
+                        Console.WriteLine("exxx: " + exxx.Message);
                     }
                 }
             }));
@@ -586,6 +648,7 @@ namespace Launcher
             if (wave == null) return;
             wave.Stop();
             position = 0;
+            readStream = null;
         }
     }
 
@@ -826,6 +889,12 @@ namespace Launcher
         {
             get
             {
+                if (!isDownloading && File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic) + "\\Groovify\\" + Artist + " - " + Album + " - " + Name + ".mp3"))
+                {
+                    _streamURL = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic) + "\\Groovify\\" + Artist + " - " + Album + " - " + Name + ".mp3";
+                    var h = new Mp3FileReader(_streamURL);
+                    return (long)h.TotalTime.TotalSeconds;
+                }
                 return (long)_s.EstimateDuration;
             }
         }
@@ -850,6 +919,7 @@ namespace Launcher
             _s = song;
             BaseName = _s.SongName;
             SongID = song.SongID;
+            Console.WriteLine(song.EstimateDuration);
         }
 
         public String Album

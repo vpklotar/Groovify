@@ -1061,6 +1061,7 @@
                     </GridView>
                 </ListView.View>
             </ListView>
+            <MediaElement x:Name="player" Height="100" Width="100"/>
             <ListView AllowDrop="True" AlternationCount="2" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Stretch" x:Name="Songs" BorderBrush="#FFE22020" BorderThickness="0" Foreground="#FFE8E8E8" Background="#FF444444" Margin="219,78,0,0" MouseLeftButtonUp="Songs_MouseLeftButtonUp" MouseDoubleClick="Songs_MouseDoubleClick" MouseMove="Songs_MouseMove" PreviewMouseLeftButtonDown="Songs_PreviewMouseLeftButtonDown" PreviewMouseMove="Songs_PreviewMouseMove" PreviewMouseLeftButtonUp="Songs_PreviewMouseLeftButtonUp" KeyUp="Songs_KeyUp" SelectionChanged="Songs_SelectionChanged" Drop="Songs_Drop" DragEnter="Songs_DragEnter">
                 <ListView.Resources>
                     
