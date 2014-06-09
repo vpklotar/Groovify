@@ -121,7 +121,7 @@ namespace Launcher
             Point pos = Mouse.GetPosition(MainWindow.INSTANCE.VolumeControl);
             float val = (float)((pos.X / ActualWidth) * Maximum); // Percentage clicked
             //val = 100 - val;
-            MainWindow.INSTANCE.player.Volume = val / 100F;
+            //MainWindow.INSTANCE.player.Volume = val / 100F;
             Value = val;
         }
     }

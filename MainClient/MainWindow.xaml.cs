@@ -62,11 +62,10 @@ namespace Launcher
             //System.Windows.MessageBox.Show("WIN TEST 2");
             Grooveshark.GetAllLocalyCachedPlaylists();
             //System.Windows.MessageBox.Show("WIN TEST 3");
-
+            
             //bool res = User32.RegisterHotKey(new WindowInteropHelper(this).Handle, this.PersistId, 0x0000, (int)System.Windows.Forms.Keys.MediaPlayPause);
 
             this.MouseDown += MainWindow_MouseDown;
-            this.player.MediaOpened += player_MediaOpened;
             this.SourceInitialized += OnSourceInitialized;
             this.KeyDown += MainWindow_KeyDown;
             //System.Windows.MessageBox.Show("WIN TEST 4");
@@ -161,12 +160,12 @@ namespace Launcher
                 {
                     if (state == "Playing")
                     {
-                        player.Pause();
+                        Grooveshark.Pause();
                         state = "Paused";
                         PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPlay_dark.png"));
                         return;
                     }
-                    player.Play();
+                    Grooveshark.Play();
                     state = "Playing";
                     PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPlay.png"));
                 }
@@ -197,7 +196,7 @@ namespace Launcher
 
         void player_MediaOpened(object sender, RoutedEventArgs e)
         {
-            progress.Value = 0;
+            /*progress.Value = 0;
             progress.Maximum = player.NaturalDuration.HasTimeSpan ? (float)player.NaturalDuration.TimeSpan.TotalSeconds : 0;
             if (player.NaturalDuration.HasTimeSpan)
             {
@@ -206,26 +205,45 @@ namespace Launcher
             else
             {
                 mediaLength = TimeSpan.FromSeconds(0);
-            }
+            }*/
         }
 
+        int totalSec = 0;
+        int totalMin = 0;
         private void updatePos(object state)
         {
+            if (Grooveshark.State() == NAudio.Wave.PlaybackState.Playing)
+            {
+                totalSec++;
+                if (totalSec == 60)
+                {
+                    totalSec = 0;
+                    totalMin++;
+                }
+            }
+            else if (Grooveshark.State() == NAudio.Wave.PlaybackState.Stopped)
+            {
+                totalMin = 0;
+                totalSec = 0;
+            }
             this.Dispatcher.Invoke(new Action(() =>
             {
-                progress.Value = (float)player.Position.TotalSeconds;
+                progress.Maximum = Grooveshark.Length();
+                progress.Value = (float)totalSec + totalMin * 60F;
                 TextBlock block = new TextBlock();
-                String s = ((int)player.Position.TotalSeconds - (int)player.Position.TotalMinutes * 60).ToString();
+                String s = (totalSec - totalMin * 60).ToString();
                 if (s.Length < 2) s = "0" + s;
-                block.Inlines.Add(new Bold(new Run((int)player.Position.TotalMinutes + ":" + s)));
+                block.Inlines.Add(new Bold(new Run(totalMin + ":" + s)));
                 block.Inlines.Add(new Run("/"));
                 String mediaL = "0:00";
-                if (mediaLength != null)
-                {
-                    s = ((int)mediaLength.TotalSeconds - (int)mediaLength.TotalMinutes * 60).ToString();
-                    if (s.Length < 2) s = "0" + s;
-                    mediaL = (int)mediaLength.TotalMinutes + ":" + s;
-                }
+                
+                int tMin = (int)Grooveshark.Length() / 60;
+                /*s = ((int)mediaLength.TotalSeconds - (int)mediaLength.TotalMinutes * 60).ToString();
+                if (s.Length < 2) s = "0" + s;
+                mediaL = (int)mediaLength.TotalMinutes + ":" + s;*/
+                String tSec = (Grooveshark.Length() - tMin * 60).ToString();
+                if (tSec.Length < 2) tSec = "0" + tSec;
+                mediaL = tMin.ToString() + ":" + tSec;
                 block.Inlines.Add(new Run(mediaL));
                 TimeSpanView.Content = block;
             }));
@@ -395,24 +413,26 @@ namespace Launcher
                 playedSongsIndex = playedSongs.Count - 2;
                 bool next = true;
                 int i = 0;
+                String songURL = "";
                 do
                 {
-                    String songURL = "";
                     try
                     {
                         songURL = o.getStreamURL();
+                        if (songURL == "")
+                        {
+                            next = true;
+                            continue;
+                        }
                         if (songURL == "-1")
                         {
                             t++;
-                            if (t >= 3 || t >= currentPlaylist.getSongs().Count)
+                            if (t >= 1 || t >= currentPlaylist.getSongs().Count)
                             {
                                 songURL = o.GetStreamURLUnofical();
                                 if (songURL != null && songURL != "" && songURL != String.Empty)
                                 {
-                                    MainWindow.INSTANCE.Dispatcher.Invoke(new Action(() =>
-                                    {
-                                        player.Source = new Uri(songURL);
-                                    }));
+                                    
                                     next = false;
                                     break;
                                 }
@@ -424,10 +444,6 @@ namespace Launcher
                                 }
                             }
                         }
-                        MainWindow.INSTANCE.Dispatcher.Invoke(new Action(() =>
-                        {
-                            player.Source = new Uri(songURL);
-                        }));
                         next = false;
                     }
                     catch (System.UriFormatException ex)
@@ -436,17 +452,20 @@ namespace Launcher
                         Console.WriteLine("Returned url: " + songURL);
                         i++;
                     }
-                    /*catch (Exception ex)
+                    catch (Exception ex)
                     {
                         Console.WriteLine("[SEVERE]" + i.ToString() + ": " + ex.Message);
                         MessageBox.Show(ex.Message.ToString());
                         i++;
-                    }*/
-                } while (next);
-
+                    }
+                } while (next && i < 5);
+                
                 MainWindow.INSTANCE.Dispatcher.Invoke(new Action(() =>
                 {
-                    player.Play();
+
+                    if (songURL == "") return;
+                    Grooveshark.Play(songURL);
+                    Grooveshark.contentLength = o.EstimatedDuration;
                     state = "Playing";
                     // UI Stuff
                     PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPaused.png"));
@@ -454,9 +473,9 @@ namespace Launcher
                     TextBlock block = new TextBlock();
                     block.Inlines.Add(new Bold(new Run(o.Artist + " ")));
                     block.Inlines.Add(new Run(o.Name));
-                    /*TextBlock na = new TextBlock();
-                    na.Text = o.Name;
-                    na.FontWeight = FontWeights.Normal;*/
+                    //TextBlock na = new TextBlock();
+                    //na.Text = o.Name;
+                    //na.FontWeight = FontWeights.Normal;
                     //CurrentlyPlayingLabel.Content = o.Artist + " - " + o.Name;
                     CurrentlyPlayingLabel.Content = block;
                     String url = o.CoverArtFileName;
@@ -466,11 +485,16 @@ namespace Launcher
             }));
         }
 
+        void testPlayer_MediaFailed(object sender, ExceptionRoutedEventArgs e)
+        {
+            Console.WriteLine(e.ErrorException.Message.ToString());
+        }
+
         public void playNext(int t = 0)
         {
             if (t >= 3 || t >= currentPlaylist.getSongs().Count)
             {
-                player.Stop();
+                Grooveshark.Stop();
                 state = "Stopped";
                 PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPlay_dark.png"));
                 return;
@@ -491,7 +515,7 @@ namespace Launcher
                     }
                     else
                     {
-                        player.Stop();
+                        Grooveshark.Stop();
                         state = "Stopped";
                         PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPlay_dark.png"));
                     }
@@ -499,7 +523,7 @@ namespace Launcher
             }
             if (playingIndex == currentPlaylist.getSongs().Count - 1)
             {
-                player.Stop();
+                Grooveshark.Stop();
                 state = "Stopped";
                 PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPlay_dark.png"));
                 return;
@@ -515,14 +539,13 @@ namespace Launcher
         {
             if (playedSongsIndex < 0 || playedSongsIndex > playedSongs.Count)
             {
-                player.Stop();
+                Grooveshark.Stop();
                 state = "Stopped";
                 PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPlay_dark.png"));
                 return;
             }
             GroovesharkSongObject o = playedSongs[playedSongsIndex];
-            player.Source = new Uri(o.getStreamURL());
-            player.Play();
+            Grooveshark.Play(o.getStreamURL());
             state = "Playing";
 
             // UI Stuff
@@ -599,12 +622,12 @@ namespace Launcher
             {
                 if (state == "Playing")
                 {
-                    player.Pause();
+                    Grooveshark.Pause();
                     state = "Paused";
                     PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPlay_dark.png"));
                     return;
                 }
-                player.Play();
+                Grooveshark.Play();
                 state = "Playing";
                 PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPlay.png"));
             }
@@ -1193,12 +1216,12 @@ namespace Launcher
                     {
                         if (state == "Playing")
                         {
-                            player.Pause();
+                            Grooveshark.Pause();
                             state = "Paused";
                             PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPlay_dark.png"));
                             return IntPtr.Zero;
                         }
-                        player.Play();
+                        Grooveshark.Play();
                         state = "Playing";
                         PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPaused.png"));
                     }
@@ -1211,7 +1234,7 @@ namespace Launcher
                 {
                     if (state == "Playing")
                     {
-                        player.Pause();
+                        Grooveshark.Pause();
                         state = "Paused";
                         PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPlay_dark.png"));
                         return IntPtr.Zero;
@@ -1314,6 +1337,11 @@ namespace Launcher
         private void CurrentlyPlayingLabel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             
+        }
+
+        private void player_MediaFailed(object sender, ExceptionRoutedEventArgs e)
+        {
+            Console.WriteLine(e.ErrorException.Message.ToString());
         }
     }
 }

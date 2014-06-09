@@ -1218,7 +1218,6 @@
                     </Image.Style>
                 </Image>
             </Grid>
-            <MediaElement x:Name="player" Height="100" Width="100" Margin="53,150,859,324" MediaOpened="player_MediaOpened_1" MediaEnded="player_MediaEnded" LoadedBehavior="Manual" BufferingEnded="player_BufferingEnded"/>
         </Grid>
         <Border x:Name="NewPlaylistHolder" Margin="0,78,0,0" BorderBrush="#FF2E2E2E" BorderThickness="0,0,2,0" HorizontalAlignment="Left" Width="219" Height="27" VerticalAlignment="Top" Background="#FF3A3A3A">
             <Grid Margin="1,0,-1,5">

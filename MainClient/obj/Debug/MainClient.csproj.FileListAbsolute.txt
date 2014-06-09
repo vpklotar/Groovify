@@ -39,3 +39,34 @@ D:\Grooveshark API test\MainClient\obj\Debug\Config.baml
 D:\Grooveshark API test\MainClient\obj\Debug\Config.g.cs
 D:\Grooveshark API test\MainClient\obj\Debug\SelectedTheme.baml
 D:\Grooveshark API test\MainClient\obj\Debug\SelectedTheme.g.cs
+C:\Users\Tim\Desktop\Groovify\src\MainClient\bin\Debug\MainClient.exe.config
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\Debug\MainClient.exe
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\Debug\MainClient.pdb
+C:\Users\Tim\Desktop\Groovify\src\MainClient\bin\Debug\MainClient.exe
+C:\Users\Tim\Desktop\Groovify\src\MainClient\bin\Debug\MainClient.pdb
+C:\Users\Tim\Desktop\Groovify\src\MainClient\bin\Debug\SciLors Logger.dll
+C:\Users\Tim\Desktop\Groovify\src\MainClient\bin\Debug\SciLors UpdateCheck.dll
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\Debug\MainClient.csprojResolveAssemblyReference.cache
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\Debug\Config.baml
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\Debug\ProgressControl.baml
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\Debug\SelectedTheme.baml
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\Debug\Volume.baml
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\Debug\Config.g.cs
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\Debug\MainWindow.g.cs
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\Debug\ProgressControl.g.cs
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\Debug\SelectedTheme.g.cs
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\Debug\Volume.g.cs
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\Debug\App.g.cs
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\Debug\MainClient_MarkupCompile.cache
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\Debug\MainClient_MarkupCompile.lref
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\Debug\MainWindow.baml
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\Debug\MainClient.g.resources
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\Debug\Launcher.Properties.Resources.resources
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\Debug\MainClient.csproj.GenerateResource.Cache
+C:\Users\Tim\Desktop\Groovify\src\MainClient\bin\Debug\Mp3Header.dll
+C:\Users\Tim\Desktop\Groovify\src\MainClient\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Tim\Desktop\Groovify\src\MainClient\bin\Debug\SciLorsGroovesharkAPI.dll
+C:\Users\Tim\Desktop\Groovify\src\MainClient\bin\Debug\NAudio.dll
+C:\Users\Tim\Desktop\Groovify\src\MainClient\bin\Debug\NAudio.WindowsMediaFormat.dll
+C:\Users\Tim\Desktop\Groovify\src\MainClient\bin\Debug\NAudio.xml

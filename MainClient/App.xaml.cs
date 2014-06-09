@@ -60,6 +60,7 @@ namespace Launcher
                 {
                     
                     //Grooveshark.login(e.Args[0].ToString(), e.Args[1].ToString());
+                    Grooveshark.init();
                 }));
             }
         }

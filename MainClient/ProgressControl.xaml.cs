@@ -65,10 +65,10 @@ namespace Launcher
 
         private void UserControl_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            Point pos = Mouse.GetPosition(MainWindow.INSTANCE.progress);
+            /*Point pos = Mouse.GetPosition(MainWindow.INSTANCE.progress);
             int val = (int)((pos.X / ActualWidth) * Maximum); // Percentage clicked
             MainWindow.INSTANCE.player.Position = TimeSpan.FromSeconds(val);
-            Value = val;
+            Value = val;*/
         }
 
         private void UserControl_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)

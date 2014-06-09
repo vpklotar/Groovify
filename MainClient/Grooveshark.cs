@@ -12,6 +12,8 @@ using System.Threading;
 using SciLorsGroovesharkAPI.Groove;
 using System.Windows.Media;
 using System.ComponentModel;
+using NAudio.Wave;
+
 
 namespace Launcher
 {
@@ -121,43 +123,50 @@ namespace Launcher
         {
             //List<GroovesharkPlaylistObject> listsDownloaded = new List<GroovesharkPlaylistObject>();
             List<GroovesharkPlaylistObject> JustDownloadedPlaylists = new List<GroovesharkPlaylistObject>();
-            var res = client.GetPlaylists(uID);
-            for (int i = 0; i < res.result.Playlists.Count; i++)
+            try
             {
-                var p = res.result.Playlists[i];
-                GroovesharkPlaylistObject playlist = new GroovesharkPlaylistObject(p);
-                JustDownloadedPlaylists.Add(playlist);
-                Console.WriteLine(playlist.Name);
-                if (!Grooveshark.hasPlaylist(playlist, null))
+                var res = client.GetPlaylists(uID);
+                for (int i = 0; i < res.result.Playlists.Count; i++)
                 {
-                    Grooveshark.Playlists.Add(playlist);
-                    //listsDownloaded.Add(playlist);
-                    MainWindow.INSTANCE.Playlists.Dispatcher.Invoke(new Action(() => MainWindow.INSTANCE.Playlists.Items.Add(playlist)));
-                    if (MainWindow.currentPlaylist == null)
+                    var p = res.result.Playlists[i];
+                    GroovesharkPlaylistObject playlist = new GroovesharkPlaylistObject(p);
+                    JustDownloadedPlaylists.Add(playlist);
+                    Console.WriteLine(playlist.Name);
+                    if (!Grooveshark.hasPlaylist(playlist, null))
                     {
-                        MainWindow.currentPlaylist = playlist;
-                        MainWindow.INSTANCE.Dispatcher.Invoke(new Action(() =>
+                        Grooveshark.Playlists.Add(playlist);
+                        //listsDownloaded.Add(playlist);
+                        MainWindow.INSTANCE.Playlists.Dispatcher.Invoke(new Action(() => MainWindow.INSTANCE.Playlists.Items.Add(playlist)));
+                        if (MainWindow.currentPlaylist == null)
                         {
-                            MainWindow.INSTANCE.populateSongs();
-                        }));
-                    }
-                }
-                else
-                {
-                    GroovesharkPlaylistObject ppl = null;
-                    for (int j = 0; j < Playlists.Count; j++)
-                    {
-                        if (Playlists[j].playlistID == playlist.playlistID)
-                        {
-                            ppl = Playlists[j];
-                            break;
+                            MainWindow.currentPlaylist = playlist;
+                            MainWindow.INSTANCE.Dispatcher.Invoke(new Action(() =>
+                            {
+                                MainWindow.INSTANCE.populateSongs();
+                            }));
                         }
                     }
-                    if (ppl != null)
+                    else
                     {
-                        ppl.UpdateSong(playlist);
+                        GroovesharkPlaylistObject ppl = null;
+                        for (int j = 0; j < Playlists.Count; j++)
+                        {
+                            if (Playlists[j].playlistID == playlist.playlistID)
+                            {
+                                ppl = Playlists[j];
+                                break;
+                            }
+                        }
+                        if (ppl != null)
+                        {
+                            ppl.UpdateSong(playlist);
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
 
             var di = new DirectoryInfo("Playlists");
@@ -485,6 +494,99 @@ namespace Launcher
                 }
             }
         }
+
+        private static WaveOut wave = null;
+        private static Stream readStream = null;
+        public static long contentLength = 0, position = 0;
+        public static void Play(string url)
+        {
+            Grooveshark.Stop();
+            System.Threading.ThreadPool.QueueUserWorkItem(new WaitCallback((Object o) =>
+            {
+                using (Stream ms = new MemoryStream())
+                {
+                    var a = WebRequest.Create(url).GetResponse();
+                    //contentLength = a.ContentLength;
+                    using (readStream = a.GetResponseStream())
+                    {
+                        //byte[] buffer = new byte[32768];
+                        byte[] buffer = new byte[512];
+                        int read;
+                        try
+                        {
+                            while ((read = readStream.Read(buffer, 0, buffer.Length)) > 0)
+                            {
+                                position += read;
+                                ms.Write(buffer, 0, read);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
+                    }
+
+                    ms.Position = 0;
+                    using (WaveStream blockAlignedStream =
+                        new BlockAlignReductionStream(
+                            WaveFormatConversionStream.CreatePcmStream(
+                                new Mp3FileReader(ms))))
+                    {
+                        using (wave = new WaveOut(WaveCallbackInfo.FunctionCallback()))
+                        {
+                            wave.Init(blockAlignedStream);
+                            wave.Play();
+                            while (wave.PlaybackState == PlaybackState.Playing)
+                            {
+                                System.Threading.Thread.Sleep(100);
+                            }
+                        }
+                    }
+                }
+            }));
+        }
+
+        public static PlaybackState State()
+        {
+            if (wave == null) return PlaybackState.Stopped;
+            return wave.PlaybackState;
+        }
+
+        public static long Position()
+        {
+            return position;
+        }
+
+        public static void Seek(long bytePossition)
+        {
+            if (readStream == null) return;
+            readStream.Seek(bytePossition, SeekOrigin.Begin);
+        }
+
+        public static long Length()
+        {
+            if (readStream == null) return 0;
+            return contentLength;
+        }
+
+        public static void Play()
+        {
+            if (wave == null) return;
+            wave.Resume();
+        }
+
+        public static void Pause()
+        {
+            if (wave == null) return;
+            wave.Pause();
+        }
+
+        public static void Stop()
+        {
+            if (wave == null) return;
+            wave.Stop();
+            position = 0;
+        }
     }
 
     public class GroovesharkPlaylistObject : INotifyPropertyChanged
@@ -719,6 +821,14 @@ namespace Launcher
                 return _s.ArtistID;
             }
         }
+
+        public long EstimatedDuration
+        {
+            get
+            {
+                return (long)_s.EstimateDuration;
+            }
+        }
         public String CoverArtFileName
         {
             get
@@ -752,6 +862,7 @@ namespace Launcher
 
         public String getStreamURL()
         {
+            //return Grooveshark.GetStreamURL(SongID);
             if (!isDownloading && File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic) + "\\Groovify\\" + Artist + " - " + Album + " - " + Name + ".mp3"))
             {
                 _streamURL = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic) + "\\Groovify\\" + Artist + " - " + Album + " - " + Name + ".mp3";
