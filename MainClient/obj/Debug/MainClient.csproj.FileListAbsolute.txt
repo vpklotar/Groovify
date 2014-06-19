@@ -70,3 +70,5 @@ C:\Users\Tim\Desktop\Groovify\src\MainClient\bin\Debug\SciLorsGroovesharkAPI.dll
 C:\Users\Tim\Desktop\Groovify\src\MainClient\bin\Debug\NAudio.dll
 C:\Users\Tim\Desktop\Groovify\src\MainClient\bin\Debug\NAudio.WindowsMediaFormat.dll
 C:\Users\Tim\Desktop\Groovify\src\MainClient\bin\Debug\NAudio.xml
+C:\Users\Tim\Desktop\Groovify\src\MainClient\bin\Debug\Bass.Net.dll
+C:\Users\Tim\Desktop\Groovify\src\MainClient\bin\Debug\Bass.Net.xml

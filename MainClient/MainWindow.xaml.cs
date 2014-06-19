@@ -59,6 +59,7 @@ namespace Launcher
             this.Loaded += MainWindow_Loaded;
             this.Closed += MainWindow_Closed;
             this.SizeChanged +=MainWindow_SizeChanged;
+            this.Songs.MouseDoubleClick += Songs_MouseDoubleClick;
             //System.Windows.MessageBox.Show("WIN TEST 2");
             Grooveshark.GetAllLocalyCachedPlaylists();
             //System.Windows.MessageBox.Show("WIN TEST 3");
@@ -263,7 +264,12 @@ namespace Launcher
 
         void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            
+            //Un4seen.Bass.Bass.LoadMe("Bass.dll");
+            if (!Un4seen.Bass.Bass.BASS_Init(-1, 44100, Un4seen.Bass.BASSInit.BASS_DEVICE_DEFAULT, IntPtr.Zero))
+            {
+                MessageBox.Show("Error occured during init of BASS.\r\n" + Un4seen.Bass.Bass.ERROR);
+            }
+
             PlaylistColumns.Columns[0].Width = Playlists.ActualWidth;
             foreach (var o in SongColumns.Columns)
             {
@@ -272,7 +278,7 @@ namespace Launcher
             this.SizeChanged += MainWindow_SizeChanged;
             System.Threading.ThreadPool.QueueUserWorkItem(new System.Threading.WaitCallback((Object o) =>
             {
-                Grooveshark.init();
+                //Grooveshark.init();
             }));
 
             short atom = Win32.GlobalAddAtom("Groovify");
@@ -399,11 +405,6 @@ namespace Launcher
 
         }
 
-        private void Songs_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            playSelectedItem();
-        }
-
         public void playSelectedItem()
         {
             if (Songs.SelectedItem != null)
@@ -479,20 +480,6 @@ namespace Launcher
                     Grooveshark.Play(songURL);
                     Grooveshark.contentLength = o.EstimatedDuration;
                     state = "Playing";
-                    // UI Stuff
-                    PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPaused.png"));
-                    Span ar = new Span();
-                    TextBlock block = new TextBlock();
-                    block.Inlines.Add(new Bold(new Run(o.Artist + " ")));
-                    block.Inlines.Add(new Run(o.Name));
-                    //TextBlock na = new TextBlock();
-                    //na.Text = o.Name;
-                    //na.FontWeight = FontWeights.Normal;
-                    //CurrentlyPlayingLabel.Content = o.Artist + " - " + o.Name;
-                    CurrentlyPlayingLabel.Content = block;
-                    String url = o.CoverArtFileName;
-                    ImageBrush b = new ImageBrush(new BitmapImage(new Uri(url)));
-                    Cover.Background = b;
                 }));
             }));
         }
@@ -1350,6 +1337,33 @@ namespace Launcher
         {
             Console.WriteLine(e.ErrorException.Message.ToString());
             
+        }
+
+        private void Songs_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            playSelectedItem();
+        }
+
+        internal void BuildSongUI()
+        {
+            PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPaused.png"));
+            var info = Grooveshark.ChannelTag;
+            if (info != null)
+            {
+
+                Span ar = new Span();
+                TextBlock block = new TextBlock();
+                block.Inlines.Add(new Bold(new Run(info.artist + " ")));
+                block.Inlines.Add(new Run(info.title));
+                //TextBlock na = new TextBlock();
+                //na.Text = o.Name;
+                //na.FontWeight = FontWeights.Normal;
+                //CurrentlyPlayingLabel.Content = o.Artist + " - " + o.Name;
+                CurrentlyPlayingLabel.Content = block;
+            }
+            String url =  playedSongs[playedSongsIndex].CoverArtFileName;
+            ImageBrush b = new ImageBrush(new BitmapImage(new Uri(url)));
+            Cover.Background = b;
         }
     }
 }

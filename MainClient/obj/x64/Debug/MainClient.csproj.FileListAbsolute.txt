@@ -1,0 +1,32 @@
+C:\Users\Tim\Desktop\Groovify\src\MainClient\bin\x64\Debug\MainClient.exe.config
+C:\Users\Tim\Desktop\Groovify\src\MainClient\bin\x64\Debug\MainClient.exe
+C:\Users\Tim\Desktop\Groovify\src\MainClient\bin\x64\Debug\MainClient.pdb
+C:\Users\Tim\Desktop\Groovify\src\MainClient\bin\x64\Debug\Bass.Net.dll
+C:\Users\Tim\Desktop\Groovify\src\MainClient\bin\x64\Debug\Mp3Header.dll
+C:\Users\Tim\Desktop\Groovify\src\MainClient\bin\x64\Debug\NAudio.dll
+C:\Users\Tim\Desktop\Groovify\src\MainClient\bin\x64\Debug\NAudio.WindowsMediaFormat.dll
+C:\Users\Tim\Desktop\Groovify\src\MainClient\bin\x64\Debug\Newtonsoft.Json.dll
+C:\Users\Tim\Desktop\Groovify\src\MainClient\bin\x64\Debug\SciLorsGroovesharkAPI.dll
+C:\Users\Tim\Desktop\Groovify\src\MainClient\bin\x64\Debug\SciLors Logger.dll
+C:\Users\Tim\Desktop\Groovify\src\MainClient\bin\x64\Debug\SciLors UpdateCheck.dll
+C:\Users\Tim\Desktop\Groovify\src\MainClient\bin\x64\Debug\Bass.Net.xml
+C:\Users\Tim\Desktop\Groovify\src\MainClient\bin\x64\Debug\NAudio.xml
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\x64\Debug\Config.baml
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\x64\Debug\ProgressControl.baml
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\x64\Debug\SelectedTheme.baml
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\x64\Debug\Volume.baml
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\x64\Debug\Config.g.cs
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\x64\Debug\MainWindow.g.cs
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\x64\Debug\ProgressControl.g.cs
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\x64\Debug\SelectedTheme.g.cs
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\x64\Debug\Volume.g.cs
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\x64\Debug\App.g.cs
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\x64\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\x64\Debug\MainClient_MarkupCompile.cache
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\x64\Debug\MainClient_MarkupCompile.lref
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\x64\Debug\MainWindow.baml
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\x64\Debug\MainClient.g.resources
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\x64\Debug\Launcher.Properties.Resources.resources
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\x64\Debug\MainClient.csproj.GenerateResource.Cache
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\x64\Debug\MainClient.exe
+C:\Users\Tim\Desktop\Groovify\src\MainClient\obj\x64\Debug\MainClient.pdb
