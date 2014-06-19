@@ -1009,7 +1009,7 @@
     </Window.Resources>
     <Grid x:Name="PlaylistPanel" Background="#FFA27C7C">
 
-        <Grid Background="#FFEAEAEA">
+        <Grid x:Name="Player" Background="#FFEAEAEA">
             <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" MaxWidth="250" x:Name="Playlists" BorderBrush="#FF2E2E2E" BorderThickness="0,0,2,0" Margin="0,103,0,0" MinWidth="80" Background="#FF3A3A3A" MouseUp="Playlists_MouseUp" HorizontalAlignment="Left" Width="219" SelectionChanged="Playlists_SelectionChanged" DragEnter="Playlists_DragEnter" Drop="Playlists_Drop" KeyUp="Playlists_KeyUp" MouseDoubleClick="Playlists_MouseDoubleClick" Foreground="#FFC3C3C3">
                 <ListView.Resources>
                     <Style TargetType="{x:Type GridViewColumnHeader}">
@@ -1061,6 +1061,7 @@
                     </GridView>
                 </ListView.View>
             </ListView>
+            <MediaElement Height="100" Width="100"/>
             <MediaElement x:Name="player" Height="100" Width="100"/>
             <ListView AllowDrop="True" AlternationCount="2" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Stretch" x:Name="Songs" BorderBrush="#FFE22020" BorderThickness="0" Foreground="#FFE8E8E8" Background="#FF444444" Margin="219,78,0,0" MouseLeftButtonUp="Songs_MouseLeftButtonUp" MouseDoubleClick="Songs_MouseDoubleClick" MouseMove="Songs_MouseMove" PreviewMouseLeftButtonDown="Songs_PreviewMouseLeftButtonDown" PreviewMouseMove="Songs_PreviewMouseMove" PreviewMouseLeftButtonUp="Songs_PreviewMouseLeftButtonUp" KeyUp="Songs_KeyUp" SelectionChanged="Songs_SelectionChanged" Drop="Songs_Drop" DragEnter="Songs_DragEnter">
                 <ListView.Resources>
@@ -1218,6 +1219,7 @@
                         </Style>
                     </Image.Style>
                 </Image>
+                <local:CMediaElement x:Name="aboo" HorizontalAlignment="Left" Height="78" Margin="106,51,0,-51" VerticalAlignment="Top" Width="100"/>
             </Grid>
         </Grid>
         <Border x:Name="NewPlaylistHolder" Margin="0,78,0,0" BorderBrush="#FF2E2E2E" BorderThickness="0,0,2,0" HorizontalAlignment="Left" Width="219" Height="27" VerticalAlignment="Top" Background="#FF3A3A3A">

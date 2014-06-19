@@ -409,7 +409,7 @@ namespace Launcher
             if (Songs.SelectedItem != null)
             {
                 currentPlaylist = ((GroovesharkPlaylistObject)Playlists.SelectedItem);
-                if (currentPlaylist == null && searchList == null) currentPlaylist = (GroovesharkPlaylistObject)Playlists.Items[0];
+                if (currentPlaylist == null && searchList == null && Playlists.Items.Count > 0) currentPlaylist = (GroovesharkPlaylistObject)Playlists.Items[0];
                 if (currentPlaylist == null) currentPlaylist = searchList;
                 GroovesharkSongObject o = (((GroovesharkSongObject)Songs.SelectedItem));
                 playingIndex = currentPlaylist.getSongs().IndexOf(o);
@@ -474,7 +474,7 @@ namespace Launcher
                 
                 MainWindow.INSTANCE.Dispatcher.Invoke(new Action(() =>
                 {
-
+                    Console.WriteLine("SongURL: " + songURL);
                     if (songURL == "") return;
                     Grooveshark.Play(songURL);
                     Grooveshark.contentLength = o.EstimatedDuration;
@@ -495,11 +495,6 @@ namespace Launcher
                     Cover.Background = b;
                 }));
             }));
-        }
-
-        void testPlayer_MediaFailed(object sender, ExceptionRoutedEventArgs e)
-        {
-            Console.WriteLine(e.ErrorException.Message.ToString());
         }
 
         public void playNext(int t = 0)

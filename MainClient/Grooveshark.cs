@@ -204,9 +204,16 @@ namespace Launcher
         public static void init()
         {
             //System.Windows.MessageBox.Show("TEST2");
-            if (client == null) client = new GroovesharkClient() { UseGZip = true, AutoReconnectWithoutMessageBox = true };
-            if (COM_TOKEN == null || COM_TOKEN == String.Empty || COM_TOKEN == "") COM_TOKEN = client.CommunicationToken;
-            login();
+            try
+            {
+                if (client == null) client = new GroovesharkClient() { UseGZip = true, AutoReconnectWithoutMessageBox = true };
+                if (COM_TOKEN == null || COM_TOKEN == String.Empty || COM_TOKEN == "") COM_TOKEN = client.CommunicationToken;
+                login();
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message);
+            }
             /*if (comToken == "")
             {
                 //JObject com = JObject.Parse(HttpPost("getCommunicationToken", "{\"header\":{\"client\":\"jsqueue\",\"clientRevision\":\"20130520\",\"privacy\":0,\"country\":{\"ID\":190,\"CC1\":0,\"CC2\":0,\"CC3\":2305843009213694000,\"CC4\":0,\"DMA\":0,\"IPR\":0},\"uuid\":\"EFE44D99-824E-4616-97D7-C9FB7BBF32E0\",\"session\":\"e901675acbaaba4fb4d1a712cf6ed4a8\"},\"method\":\"getCommunicationToken\",\"parameters\":{\"secretKey\":\"c189ed93fb434a90da0eef46a3db8c0e\"}}"));
@@ -223,18 +230,19 @@ namespace Launcher
         public static GroovesharkPlaylistObject search(String querry)
         {
             GroovesharkPlaylistObject searchList = new GroovesharkPlaylistObject();
-            /*String r = HttpPost("http://tinysong.com/s/" + System.Net.WebUtility.UrlEncode(querry) + "?format=json&limit=64&key=16e37e8e9e47102d2f5fc8086790298f", "");
+            String r = HttpPost("http://tinysong.com/s/" + System.Net.WebUtility.UrlEncode(querry) + "?format=json&limit=64&key=16e37e8e9e47102d2f5fc8086790298f", "");
             //r = r.Split('<')[0].ToString();
             r = r.Replace("<html>", "").Replace("</html>", "").Replace("<body>", "").Replace("</body>", "").Replace("<head></head>", "");
             JArray result = JArray.Parse(r);
             //var res = Grooveshark.client.
             for (int i = 0; i < result.Count; i++)
             {
-                GroovesharkSongObject obj = new GroovesharkSongObject(Convert.ToInt32(result[i]));
+                var res = result[i];
+                GroovesharkSongObject obj = new GroovesharkSongObject() { SongID = Convert.ToInt32(res["SongID"].ToString()), Name = res["SongName"].ToString() };
                 searchList.addSong(obj);
-            }*/
+            }
 
-            if (querry.ToLower().StartsWith("gurl::"))
+            /*if (querry.ToLower().StartsWith("gurl::"))
             {
                 //searchList.addSong(GroovesharkSongObject.GetSongFromGroovifyURL(querry));
             }
@@ -246,7 +254,7 @@ namespace Launcher
                     var item = res[i];
                     searchList.addSong(new GroovesharkSongObject(item));
                 }
-            }
+            }*/
             return searchList;
         }
 
@@ -352,7 +360,7 @@ namespace Launcher
         {
             string randomHexStr = GetRandomHexStr();
             //string str = method + ":" + COM_TOKEN + ":nuggetsOfBaller:" + randomHexStr;
-            string str = method + ":" + COM_TOKEN + client.HtmlShark.GrooveStaticRandomizer + randomHexStr;
+            string str = method + ":" + COM_TOKEN + ":nuggetsOfBaller:" + randomHexStr;
             string shA1Hash = HashHelper.GetSHA1Hash(str);
             string text = randomHexStr + shA1Hash;
             return text;
@@ -402,7 +410,11 @@ namespace Launcher
             //String json = "{\"header\":{\"client\":\"htmlshark\",\"clientRevision\":\"20130520\",\"privacy\":0,\"country\":{\"ID\":190,\"CC1\":0,\"CC2\":0,\"CC3\":2305843009213694000,\"CC4\":0,\"DMA\":0,\"IPR\":0},\"uuid\":\"1A34BD6F-1E60-48DF-AA89-759EB5C70C0B\",\"session\":\"" + client.GetSessionIdFromApi() + "\",\"token\":\"" + GetRequestToken("createPlaylistEx") + "\"},\"method\":\"createPlaylistEx\",\"parameters\":{\"playlistName\":\"" + name + "\",\"songIDs\":[],\"playlistAbout\":\"\"}}";
             try
             {
-                String json = "{\"parameters\":{\"songID\":" + SongID + ",\"type\":16,\"country\":{\"CC4\":0,\"DMA\":0,\"CC1\":0,\"IPR\":0,\"CC2\":0,\"CC3\":2305843009213694000,\"ID\":190},\"mobile\":false,\"prefetch\":false},\"method\":\"getStreamKeyFromSongIDEx\",\"header\":{\"token\":\"" + GetRequestToken("getStreamKeyFromSongIDEx") + "\",\"privacy\":0,\"country\":{\"CC4\":0,\"DMA\":0,\"CC1\":0,\"IPR\":0,\"CC2\":0,\"CC3\":2305843009213694000,\"ID\":190},\"uuid\":\"01AB1DB6-C4DF-4F7B-AA95-495DC0B484F3\",\"client\":\"htmlshark\",\"session\":\"" + client.GetSessionIdFromApi() + "\",\"clientRevision\":\"20130520.14\"}}";
+                /*COM_TOKEN = GetComToken();
+                String sessID = GetSessionID();*/
+                //String json = "{\"parameters\":{\"songID\":" + SongID + ",\"type\":16,\"country\":{\"CC4\":0,\"DMA\":0,\"CC1\":0,\"IPR\":0,\"CC2\":0,\"CC3\":2305843009213694000,\"ID\":190},\"mobile\":false,\"prefetch\":false},\"method\":\"getStreamKeyFromSongIDEx\",\"header\":{\"token\":\"" + GetRequestToken("getStreamKeyFromSongIDEx") + "\",\"privacy\":0,\"country\":{\"CC4\":0,\"DMA\":0,\"CC1\":0,\"IPR\":0,\"CC2\":0,\"CC3\":2305843009213694000,\"ID\":190},\"uuid\":\"01AB1DB6-C4DF-4F7B-AA95-495DC0B484F3\",\"client\":\"htmlshark\",\"session\":\"" + client.GetSessionIdFromApi() + "\",\"clientRevision\":\"20130520.14\"}}";
+                //String json = "{\"parameters\":{\"songID\":" + SongID + ",\"type\":16,\"country\":{\"CC4\":0,\"DMA\":0,\"CC1\":0,\"IPR\":0,\"CC2\":0,\"CC3\":2305843009213694000,\"ID\":190},\"mobile\":false,\"prefetch\":false},\"method\":\"getStreamKeyFromSongIDEx\",\"header\":{\"token\":\"" + GetRequestToken("getStreamKeyFromSongIDEx") + "\",\"privacy\":0,\"country\":{\"CC4\":0,\"DMA\":0,\"CC1\":0,\"IPR\":0,\"CC2\":0,\"CC3\":2305843009213694000,\"ID\":190},\"uuid\":\"01AB1DB6-C4DF-4F7B-AA95-495DC0B484F3\",\"client\":\"htmlshark\",\"session\":\"" + sessID + "\",\"clientRevision\":\"20130520.14\"}}";
+                String json = "{\"header\":{\"session\":\"12c75665779fc5862d87ee8200b91952\",\"client\":\"jsqueue\",\"uuid\":\"CD0765A6-A94C-42D1-ADBB-F873B5854A1F\",\"clientRevision\":\"20130520\",\"privacy\":0,\"country\":{\"DMA\":0,\"CC1\":0,\"IPR\":0,\"CC2\":0,\"CC3\":2305843009213694000,\"ID\":190,\"CC4\":0},\"token\":\"3d38fdfce11612aba82e9ea28bb98b9aa3193c6a432b76\"},\"method\":\"getStreamKeyFromSongIDEx\",\"parameters\":{\"mobile\":false,\"songID\":" + SongID + ",\"country\":{\"DMA\":0,\"CC1\":0,\"IPR\":0,\"CC2\":0,\"CC3\":2305843009213694000,\"ID\":190,\"CC4\":0},\"type\":16,\"prefetch\":false}}";
                 var res = HttpPost("http://grooveshark.com/more.php?getStreamKeyFromSongIDEx", json);
                 var j = Newtonsoft.Json.Linq.JObject.Parse(res);
                 String ip = j["result"]["ip"].ToString();
@@ -413,6 +425,7 @@ namespace Launcher
             catch (Exception ex)
             {
                 if (!isRetry) return GetStreamURL(SongID, true);
+                Console.WriteLine(ex.Message);
                 return "";
             }
         }
@@ -422,6 +435,16 @@ namespace Launcher
             String r = HttpPost("http://grooveshark.com/preload.php?getCommunicationToken=1", "");
 
             r = r.Substring(46);
+            r = r.Remove(r.IndexOf('"'));
+
+            return r;
+        }
+
+        public static String GetSessionID()
+        {
+            String r = HttpPost("http://grooveshark.com/preload.php?getCommunicationToken=1", "");
+
+            r = r.Substring(37254);
             r = r.Remove(r.IndexOf('"'));
 
             return r;
@@ -501,111 +524,60 @@ namespace Launcher
         public static void Play(string url)
         {
             Grooveshark.Stop();
-            var a = WebRequest.Create(url).GetResponse();
+            var player = new System.Media.SoundPlayer(url);
+            player.Play();
+            //MainWindow.INSTANCE.aboo.Dispatcher.BeginInvoke(new Action(() =>
+            //{
+            //    MainWindow.INSTANCE.aboo.Source = new Uri(url);
+            //}));
+            //var a = WebRequest.Create(url).GetResponse();
+            //System.Threading.ThreadPool.QueueUserWorkItem(new WaitCallback((Object o) =>
+            //{
+            //    using (Stream ms = new MemoryStream())
+            //    {
+            //        using (readStream = a.GetResponseStream())
+            //        {
+            //            //byte[] buffer = new byte[32768];
+            //            byte[] buffer = new byte[8];
+            //            int read;
+            //            try
+            //            {
+            //                while ((read = readStream.Read(buffer, 0, buffer.Length)) > 0)
+            //                {
+            //                    position += read;
+            //                    ms.Write(buffer, 0, read);
+            //                }
+            //            }
+            //            catch (Exception ex)
+            //            {
+            //                Console.WriteLine("ex message: " + ex.Message);
+            //            }
+            //        }
 
-            System.Threading.ThreadPool.QueueUserWorkItem(new WaitCallback((Object o) =>
-            {
-                using (Stream ms = new MemoryStream())
-                {
-                    using (readStream = a.GetResponseStream())
-                    {
-                        //byte[] buffer = new byte[32768];
-                        byte[] buffer = new byte[256];
-                        int read;
-                        //try
-                        //{
-                        //    while ((read = readStream.Read(buffer, 0, buffer.Length)) > 0)
-                        //    {
-                        //        position += read;
-                        //        ms.Write(buffer, 0, read);
-                        //        if (contentLength > 0)
-                        //        {
-                        //            break;
-                        //        }
-                        //        try
-                        //        {
-                        //            var m = new Mp3FileReader(ms);
-                        //            contentLength = (long)m.TotalTime.TotalSeconds;
-                        //        }
-                        //        catch (Exception exx)
-                        //        {
-                        //            Console.WriteLine("exx message: " + exx.Message);
-                        //        }
-                        //    }
-                        //}
-                        //catch (Exception ex)
-                        //{
-                        //    Console.WriteLine("ex message: " + ex.Message);
-                        //}
-                        ////contentLength = a.ContentLength;
-                        //while (readStream == null)
-                        //{
-                        //    System.Threading.Thread.Sleep(100);
-                        //}
-                        //byte[] buffer = new byte[32768];
-
-                        //byte[] buffer = new byte[2048];
-                        //int read;
-                        try
-                        {
-                            int iexx = 0;
-                            int nextReadTry = 0;
-                            while ((read = readStream.Read(buffer, 0, buffer.Length)) > 0)
-                            {
-                                position += read;
-                                ms.Write(buffer, 0, read);
-                                /*if (position < nextReadTry || contentLength > 0) continue;
-                                System.Threading.ThreadPool.QueueUserWorkItem(new WaitCallback((Object oo) =>
-                                {
-                                    try
-                                    {
-                                        var m = new Mp3FileReader(ms);
-                                        contentLength = (long)m.TotalTime.TotalSeconds;
-                                    }
-                                    catch (Exception exx)
-                                    {
-                                        Console.WriteLine("exx message: " + exx.Message);
-                                        iexx++;
-                                        nextReadTry += 1024;
-                                        if (iexx > 4)
-                                        {
-
-                                        }
-                                    }
-                                }));*/
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine("ex message: " + ex.Message);
-                        }
-                    }
-
-                    ms.Position = 0;
-                    try
-                    {
-                        using (WaveStream blockAlignedStream =
-                        new BlockAlignReductionStream(
-                            WaveFormatConversionStream.CreatePcmStream(
-                                new Mp3FileReader(ms))))
-                        {
-                            using (wave = new WaveOut(WaveCallbackInfo.FunctionCallback()))
-                            {
-                                wave.Init(blockAlignedStream);
-                                wave.Play();
-                                while (wave.PlaybackState == PlaybackState.Playing)
-                                {
-                                    System.Threading.Thread.Sleep(100);
-                                }
-                            }
-                        }
-                    }
-                    catch (Exception exxx)
-                    {
-                        Console.WriteLine("exxx: " + exxx.Message);
-                    }
-                }
-            }));
+            //        ms.Position = 0;
+            //        try
+            //        {
+            //            //Mp3FileReader mp3FileReader = new Mp3FileReader(ms);
+            //            CustomMp3FileReader mp3FileReader = new CustomMp3FileReader(ms);
+            //            using (WaveStream blockAlignedStream = new BlockAlignReductionStream(WaveFormatConversionStream.CreatePcmStream(mp3FileReader)))
+            //            {
+            //                using (wave = new WaveOut(WaveCallbackInfo.FunctionCallback()))
+            //                {
+            //                    wave.Init(blockAlignedStream);
+            //                    wave.Play();
+            //                    while (wave.PlaybackState == PlaybackState.Playing)
+            //                    {
+            //                        System.Threading.Thread.Sleep(10);
+            //                    }
+            //                }
+            //            }
+            //        }
+            //        catch (Exception exxx)
+            //        {
+            //            Console.WriteLine("exxx: " + exxx.Message);
+            //        }
+            //    }
+            //}));
         }
 
         public static PlaybackState State()
@@ -914,12 +886,16 @@ namespace Launcher
         }
         private SciLorsGroovesharkAPI.Groove.Functions.SearchArtist.SearchArtistResult _s;
 
+        public GroovesharkSongObject()
+        {
+            _s = new SciLorsGroovesharkAPI.Groove.Functions.SearchArtist.SearchArtistResult();
+        }
+
         public GroovesharkSongObject(SciLorsGroovesharkAPI.Groove.Functions.SearchArtist.SearchArtistResult song)
         {
             _s = song;
             BaseName = _s.SongName;
             SongID = song.SongID;
-            Console.WriteLine(song.EstimateDuration);
         }
 
         public String Album
@@ -941,9 +917,10 @@ namespace Launcher
 
             try
             {
-                var res = Grooveshark.client.GetStreamKey(SongID);
-                _streamURL = "http://" + res.ip + "/stream.php?streamKey=" + res.streamKey;
-                return _streamURL;
+                var s = Grooveshark.GetStreamURL(SongID);
+                //var res = Grooveshark.client.GetStreamKey(SongID);
+                //_streamURL = "http://" + res.ip + "/stream.php?streamKey=" + res.streamKey;
+                return s;
             }
             catch (Exception ex)
             {
