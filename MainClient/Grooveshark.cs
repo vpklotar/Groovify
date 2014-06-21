@@ -161,7 +161,6 @@ namespace Launcher
                     var p = res.result.Playlists[i];
                     GroovesharkPlaylistObject playlist = new GroovesharkPlaylistObject(p);
                     JustDownloadedPlaylists.Add(playlist);
-                    Console.WriteLine(playlist.Name);
                     if (!Grooveshark.hasPlaylist(playlist, null))
                     {
                         Grooveshark.Playlists.Add(playlist);
@@ -554,20 +553,30 @@ namespace Launcher
         public static void Play(string url)
         {
             Grooveshark.Stop();
-            _CurrentChannel = Bass.BASS_StreamCreateURL(url, 0, BASSFlag.BASS_DEFAULT, null, IntPtr.Zero);
-            Bass.BASS_ChannelPlay(_CurrentChannel, false);
-
-            int t = 0;
-            do
+            System.Threading.ThreadPool.QueueUserWorkItem(new WaitCallback((Object o) =>
             {
-                if (ChannelTag != null)
+                _CurrentChannel = Bass.BASS_StreamCreateURL(url, 0, BASSFlag.BASS_ASYNCFILE, null, IntPtr.Zero);
+                Bass.BASS_ChannelPlay(_CurrentChannel, false);
+
+                int t = 0;
+                do
                 {
-                    MainWindow.INSTANCE.Dispatcher.BeginInvoke(new Action(() =>
+                    if (ChannelTag != null)
                     {
-                        MainWindow.INSTANCE.BuildSongUI();
-                    }));
-                }
-            } while (ChannelTag == null && t < 100);
+                        MainWindow.INSTANCE.Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            MainWindow.INSTANCE.BuildSongUI();
+                        }));
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("ChannelTag is null, sleeping for 20 sec.");
+                        t++;
+                        System.Threading.Thread.Sleep(20);
+                    }
+                } while (ChannelTag == null && t < 100);
+            }));
         }
 
         public static PlaybackState State()
