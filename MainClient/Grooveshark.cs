@@ -66,6 +66,13 @@ namespace Launcher
                 return null;
             }
         }
+        public static BASSActive ChannelIsActive
+        {
+            get
+            {
+                return Bass.BASS_ChannelIsActive(_CurrentChannel);
+            }
+        }
 
         public static void UPDATE()
         {
@@ -561,7 +568,7 @@ namespace Launcher
 
         private static WaveOut wave = null;
         private static Stream readStream = null;
-        public static long contentLength = 0, position = 0;
+        public static long contentLength = 0;
         public static void Play(string url)
         {
             Grooveshark.Stop();
@@ -610,21 +617,41 @@ namespace Launcher
             return wave.PlaybackState;
         }
 
-        public static long Position()
+        public static long Position
         {
-            return position;
+            get
+            {
+                return Bass.BASS_ChannelGetPosition(_CurrentChannel);
+            }
+        }
+        public static float PositionSecounds
+        {
+            get
+            {
+                return (float)Bass.BASS_ChannelBytes2Seconds(_CurrentChannel, Position);
+            }
         }
 
-        public static void Seek(long bytePossition)
+        public static void Seek(int sec)
         {
-            if (readStream == null) return;
-            readStream.Seek(bytePossition, SeekOrigin.Begin);
+            var pos = Bass.BASS_ChannelSeconds2Bytes(_CurrentChannel, sec);
+            Console.WriteLine(Bass.BASS_ChannelSetPosition(_CurrentChannel, pos));
         }
 
-        public static long Length()
+        public static long Length
         {
-            if (readStream == null) return 0;
-            return contentLength;
+            get
+            {
+                return Bass.BASS_ChannelGetLength(_CurrentChannel);
+            }
+        }
+
+        public static float LengthSecounds
+        {
+            get
+            {
+                return (float)Bass.BASS_ChannelBytes2Seconds(_CurrentChannel, Length);
+            }
         }
 
         public static void Play()

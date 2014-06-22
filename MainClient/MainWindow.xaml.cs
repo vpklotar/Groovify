@@ -216,51 +216,43 @@ namespace Launcher
             }*/
         }
 
-        int totalSec = 0;
-        int totalMin = 0;
         private void updatePos(object state)
         {
-            if (Grooveshark.State() == NAudio.Wave.PlaybackState.Playing)
+            if (Grooveshark.ChannelIsActive == BASSActive.BASS_ACTIVE_PLAYING)
             {
-                totalSec++;
-                if (totalSec == 60)
+                this.Dispatcher.Invoke(new Action(() =>
                 {
-                    totalSec = 0;
-                    totalMin++;
-                }
+                    progress.Maximum = Grooveshark.LengthSecounds;
+                    progress.Value = Grooveshark.PositionSecounds;
+                    TextBlock block = new TextBlock();
+                    int totalMin = 0;
+                    int totalSec = (int)Grooveshark.PositionSecounds;
+                    while (totalSec > 60)
+                    {
+                        totalMin++;
+                        totalSec -= 60;
+                    }
+                    String s = totalSec.ToString();
+                    if (s.Length < 2) s = "0" + s;
+                    block.Inlines.Add(new Bold(new Run(totalMin + ":" + s)));
+                    block.Inlines.Add(new Run("/"));
+                    String mediaL = "0:00";
 
-                if (Grooveshark.Length() == 0)
-                {
-                    //+Grooveshark.contentLength = playedSongs[playedSongsIndex].EstimatedDuration;
-                }
+                    int tMin = (int)Grooveshark.LengthSecounds / 60;
+                    /*s = ((int)mediaLength.TotalSeconds - (int)mediaLength.TotalMinutes * 60).ToString();
+                    if (s.Length < 2) s = "0" + s;
+                    mediaL = (int)mediaLength.TotalMinutes + ":" + s;*/
+                    String tSec = ((int)(Grooveshark.LengthSecounds - tMin * 60)).ToString();
+                    if (tSec.Length < 2) tSec = "0" + tSec;
+                    mediaL = tMin.ToString() + ":" + tSec;
+                    block.Inlines.Add(new Run(mediaL));
+                    TimeSpanView.Content = block;
+                }));
             }
-            else if (Grooveshark.State() == NAudio.Wave.PlaybackState.Stopped)
+            else if (Grooveshark.ChannelIsActive == BASSActive.BASS_ACTIVE_STOPPED && CurrentlyPlayingSong != null)
             {
-                totalMin = 0;
-                totalSec = 0;
+                if (Grooveshark.LengthSecounds - Grooveshark.PositionSecounds <= 3) playNext();
             }
-            this.Dispatcher.Invoke(new Action(() =>
-            {
-                progress.Maximum = Grooveshark.Length();
-                progress.Value = (float)totalSec + totalMin * 60F;
-                TextBlock block = new TextBlock();
-                //String s = (totalSec - totalMin * 60).ToString();
-                String s = (totalSec).ToString();
-                if (s.Length < 2) s = "0" + s;
-                block.Inlines.Add(new Bold(new Run(totalMin + ":" + s)));
-                block.Inlines.Add(new Run("/"));
-                String mediaL = "0:00";
-
-                int tMin = (int)Grooveshark.Length() / 60;
-                /*s = ((int)mediaLength.TotalSeconds - (int)mediaLength.TotalMinutes * 60).ToString();
-                if (s.Length < 2) s = "0" + s;
-                mediaL = (int)mediaLength.TotalMinutes + ":" + s;*/
-                String tSec = (Grooveshark.Length() - tMin * 60).ToString();
-                if (tSec.Length < 2) tSec = "0" + tSec;
-                mediaL = tMin.ToString() + ":" + tSec;
-                block.Inlines.Add(new Run(mediaL));
-                TimeSpanView.Content = block;
-            }));
         }
 
         void MainWindow_Loaded(object sender, RoutedEventArgs e)

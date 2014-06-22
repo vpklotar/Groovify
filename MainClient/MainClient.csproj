@@ -116,8 +116,6 @@
     <Compile Include="Config.xaml.cs">
       <DependentUpon>Config.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CustomMp3FileReader.cs" />
-    <Compile Include="CustomMp3Frame.cs" />
     <Compile Include="MessageHelper.cs" />
     <Compile Include="SelectedTheme.xaml.cs">
       <DependentUpon>SelectedTheme.xaml</DependentUpon>
