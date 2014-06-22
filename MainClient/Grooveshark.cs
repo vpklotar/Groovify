@@ -15,6 +15,7 @@ using System.ComponentModel;
 using NAudio.Wave;
 using Un4seen.Bass;
 using Un4seen.Bass.AddOn.Tags;
+using System.Windows.Interop;
 
 namespace Launcher
 {
@@ -27,15 +28,26 @@ namespace Launcher
         public static String LINK_HOST = "http://groovify.net46.net/public/Song/";
         private static bool keepLoggedIn = true;
         private static int _CurrentChannel = -1;
+        public static IntPtr Handle
+        {
+            get
+            {
+                return new WindowInteropHelper(MainWindow.INSTANCE).Handle;
+            }
+        }
         public static BASS_CHANNELINFO ChannelInfo
         {
             get
             {
                 BASS_CHANNELINFO info = null;
-                if (_CurrentChannel > -1)
+                try
                 {
-                    info = new BASS_CHANNELINFO(); ;
+                    info = new BASS_CHANNELINFO();
                     Bass.BASS_ChannelGetInfo(_CurrentChannel, info);
+                }
+                catch (Exception)
+                {
+
                 }
                 return info;
             }
@@ -553,16 +565,25 @@ namespace Launcher
         public static void Play(string url)
         {
             Grooveshark.Stop();
+
+            if (url.ToLower().StartsWith("http"))
+            {
+                _CurrentChannel = Bass.BASS_StreamCreateURL(url, 0, BASSFlag.BASS_ASYNCFILE, null, Grooveshark.Handle);
+            }
+            else
+            {
+                _CurrentChannel = Bass.BASS_StreamCreateFile(url, 0, 0, BASSFlag.BASS_ASYNCFILE);
+            }
+            Bass.BASS_ChannelPlay(_CurrentChannel, false);
+
             System.Threading.ThreadPool.QueueUserWorkItem(new WaitCallback((Object o) =>
             {
-                _CurrentChannel = Bass.BASS_StreamCreateURL(url, 0, BASSFlag.BASS_ASYNCFILE, null, IntPtr.Zero);
-                Bass.BASS_ChannelPlay(_CurrentChannel, false);
-
                 int t = 0;
                 do
                 {
                     if (ChannelTag != null)
                     {
+                        Console.WriteLine("Building UI Data");
                         MainWindow.INSTANCE.Dispatcher.BeginInvoke(new Action(() =>
                         {
                             MainWindow.INSTANCE.BuildSongUI();
@@ -571,11 +592,15 @@ namespace Launcher
                     }
                     else
                     {
-                        Console.WriteLine("ChannelTag is null, sleeping for 20 sec.");
+                        Console.WriteLine("ChannelTag is null, sleeping for 2 sec.");
                         t++;
-                        System.Threading.Thread.Sleep(20);
+                        System.Threading.Thread.Sleep(2000);
                     }
                 } while (ChannelTag == null && t < 100);
+                if (t >= 100)
+                {
+                    Console.WriteLine("Failed to get ChannelTag, tag return: " + ChannelTag);
+                }
             }));
         }
 
@@ -616,7 +641,6 @@ namespace Launcher
 
         public static void Stop()
         {
-            if (_CurrentChannel <= -1) return;
             Bass.BASS_ChannelStop(_CurrentChannel);
         }
     }

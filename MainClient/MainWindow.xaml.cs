@@ -20,6 +20,7 @@ using System.Runtime.InteropServices;
 using System.Security.Permissions;
 using System.Net;
 using System.IO;
+using Un4seen.Bass;
 
 namespace Launcher
 {
@@ -265,9 +266,15 @@ namespace Launcher
         void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             //Un4seen.Bass.Bass.LoadMe("Bass.dll");
-            if (!Un4seen.Bass.Bass.BASS_Init(-1, 44100, Un4seen.Bass.BASSInit.BASS_DEVICE_DEFAULT, IntPtr.Zero))
+            if (!Un4seen.Bass.Bass.BASS_Init(-1, 44100, Un4seen.Bass.BASSInit.BASS_DEVICE_LATENCY, Grooveshark.Handle))
             {
                 MessageBox.Show("Error occured during init of BASS.\r\n" + Un4seen.Bass.Bass.ERROR);
+            }
+            else
+            {
+                BASS_INFO info = new BASS_INFO();
+                Bass.BASS_GetInfo(info);
+                Console.WriteLine(info.ToString());
             }
 
             PlaylistColumns.Columns[0].Width = Playlists.ActualWidth;
@@ -420,6 +427,7 @@ namespace Launcher
 
         private void playSong(GroovesharkSongObject o, int t = 0)
         {
+            CurrentlyPlayingSong = o;
             System.Threading.ThreadPool.QueueUserWorkItem(new System.Threading.WaitCallback((Object oo) =>
             {
                 playedSongs.Add(o);
@@ -1186,6 +1194,7 @@ namespace Launcher
         }
 
         Boolean GotDown = false;
+        private GroovesharkSongObject CurrentlyPlayingSong;
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             if (msg == Win32.WM_HOTKEY)
@@ -1345,30 +1354,25 @@ namespace Launcher
 
         internal void BuildSongUI()
         {
-            System.Threading.ThreadPool.QueueUserWorkItem(new System.Threading.WaitCallback((Object o) =>
+            PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPaused.png"));
+            var info = Grooveshark.ChannelTag;
+            if (info != null)
             {
-                MainWindow.INSTANCE.Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPaused.png"));
-                    var info = Grooveshark.ChannelTag;
-                    if (info != null)
-                    {
-
-                        Span ar = new Span();
-                        TextBlock block = new TextBlock();
-                        block.Inlines.Add(new Bold(new Run(info.artist + " ")));
-                        block.Inlines.Add(new Run(info.title));
-                        //TextBlock na = new TextBlock();
-                        //na.Text = o.Name;
-                        //na.FontWeight = FontWeights.Normal;
-                        //CurrentlyPlayingLabel.Content = o.Artist + " - " + o.Name;
-                        CurrentlyPlayingLabel.Content = block;
-                    }
-                    String url = playedSongs[playedSongsIndex].CoverArtFileName;
-                    ImageBrush b = new ImageBrush(new BitmapImage(new Uri(url)));
-                    Cover.Background = b;
-                }));
-            }));
+                String artist = info.artist.Trim() == String.Empty ? CurrentlyPlayingSong.Artist : info.artist;
+                String title = info.title.Trim() == String.Empty ? CurrentlyPlayingSong.Name : info.title;
+                Span ar = new Span();
+                TextBlock block = new TextBlock();
+                block.Inlines.Add(new Bold(new Run(artist + " ")));
+                block.Inlines.Add(new Run(title));
+                //TextBlock na = new TextBlock();
+                //na.Text = o.Name;
+                //na.FontWeight = FontWeights.Normal;
+                //CurrentlyPlayingLabel.Content = o.Artist + " - " + o.Name;
+                CurrentlyPlayingLabel.Content = block;
+            }
+            String url = CurrentlyPlayingSong.CoverArtFileName;
+            ImageBrush b = new ImageBrush(new BitmapImage(new Uri(url)));
+            Cover.Background = b;
         }
     }
 }
