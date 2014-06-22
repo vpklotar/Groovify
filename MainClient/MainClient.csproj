@@ -76,12 +76,6 @@
     <Reference Include="Mp3Header">
       <HintPath>C:\Users\Tim\Desktop\SciLor's Grooveshark.com Downloader\Mp3Header.dll</HintPath>
     </Reference>
-    <Reference Include="NAudio">
-      <HintPath>..\..\..\NAudio\NAudio.dll</HintPath>
-    </Reference>
-    <Reference Include="NAudio.WindowsMediaFormat">
-      <HintPath>..\..\..\NAudio\NAudio.WindowsMediaFormat.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Users\Tim\Desktop\SciLor's Grooveshark.com Downloader\Newtonsoft.Json.dll</HintPath>

@@ -183,7 +183,7 @@ namespace Launcher
 
             MainWindow.INSTANCE.TopPanel.Background = t.GetBrush("BGTopPanel");
             MainWindow.INSTANCE.CurrentlyPlayingLabel.Foreground = t.GetBrush("FGCurrentlyPlayingLabel");
-            MainWindow.INSTANCE.TimeSpanView.Foreground = t.GetBrush("FGTimeSpanView");
+            //MainWindow.INSTANCE.TimeSpanView.Foreground = t.GetBrush("FGTimeSpanView");
             MainWindow.INSTANCE.SearchBox.Foreground = t.GetBrush("FGSearchBox");
 
             MainWindow.INSTANCE.NewPlaylistHolder.Background = t.GetBrush("BGPlaylistView");

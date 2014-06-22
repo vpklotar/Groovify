@@ -51,11 +51,13 @@ namespace Launcher
         {
             float per = Value / Maximum;
             int w = (int)(per * ActualWidth);
-            System.Windows.Media.Animation.DoubleAnimation da = new System.Windows.Media.Animation.DoubleAnimation();
+            /*System.Windows.Media.Animation.DoubleAnimation da = new System.Windows.Media.Animation.DoubleAnimation();
             da.From = ProgressView.ActualWidth;
             da.To = w;
             da.Duration = TimeSpan.FromMilliseconds(500);
-            ProgressView.BeginAnimation(Label.WidthProperty, da);
+            ProgressView.BeginAnimation(Label.WidthProperty, da);*/
+            ProgressView.Width = w;
+            Knob.Margin = new Thickness(w - Knob.ActualWidth, Knob.Margin.Top, Knob.Margin.Right, Knob.Margin.Bottom);
         }
 
         public ProgressControl()

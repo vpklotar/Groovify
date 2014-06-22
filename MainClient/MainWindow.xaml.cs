@@ -107,7 +107,7 @@ namespace Launcher
             System.Threading.Timer t = new System.Threading.Timer(updatePos);
             t.Change(0, 1000);
             //System.Windows.MessageBox.Show("WIN TEST 6");
-            Launcher.Theme.Apply();
+            //Launcher.Theme.Apply();
             //System.Windows.MessageBox.Show("WIN TEST 7");
         }
 
@@ -224,7 +224,6 @@ namespace Launcher
                 {
                     progress.Maximum = Grooveshark.LengthSecounds;
                     progress.Value = Grooveshark.PositionSecounds;
-                    TextBlock block = new TextBlock();
                     int totalMin = 0;
                     int totalSec = (int)Grooveshark.PositionSecounds;
                     while (totalSec > 60)
@@ -234,19 +233,21 @@ namespace Launcher
                     }
                     String s = totalSec.ToString();
                     if (s.Length < 2) s = "0" + s;
-                    block.Inlines.Add(new Bold(new Run(totalMin + ":" + s)));
-                    block.Inlines.Add(new Run("/"));
-                    String mediaL = "0:00";
 
-                    int tMin = (int)Grooveshark.LengthSecounds / 60;
-                    /*s = ((int)mediaLength.TotalSeconds - (int)mediaLength.TotalMinutes * 60).ToString();
-                    if (s.Length < 2) s = "0" + s;
-                    mediaL = (int)mediaLength.TotalMinutes + ":" + s;*/
-                    String tSec = ((int)(Grooveshark.LengthSecounds - tMin * 60)).ToString();
-                    if (tSec.Length < 2) tSec = "0" + tSec;
-                    mediaL = tMin.ToString() + ":" + tSec;
-                    block.Inlines.Add(new Run(mediaL));
-                    TimeSpanView.Content = block;
+                    CurrentTimeLabel.Content = totalMin  +":" + s;
+                    int tMin = 0;
+                    int tSec = (int)(Grooveshark.LengthSecounds - Grooveshark.PositionSecounds);
+                    while (tSec > 60)
+                    {
+                        tMin++;
+                        tSec -= 60;
+                    }
+                    String vSec = tSec.ToString();
+                    if (vSec.Length < 2)
+                    {
+                        vSec = "0" + vSec;
+                    }
+                    CurrentTimeLeftLabel.Content = "-" + tMin + ":" + vSec;
                 }));
             }
             else if (Grooveshark.ChannelIsActive == BASSActive.BASS_ACTIVE_STOPPED && CurrentlyPlayingSong != null)
@@ -543,7 +544,7 @@ namespace Launcher
 
             // UI Stuff
             PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPlay.png"));
-            CurrentlyPlayingLabel.Content = o.Artist + " - " + o.Name;
+            CurrentlyPlayingLabel.Content = o.Name;
             ImageBrush b = new ImageBrush(new BitmapImage(new Uri("http://images.gs-cdn.net/static/albums/70_" + (o.CoverArtFileName == "" ? "album.jpg" : o.CoverArtFileName))));
             Cover.Background = b;
 
@@ -1352,18 +1353,26 @@ namespace Launcher
             {
                 String artist = info.artist.Trim() == String.Empty ? CurrentlyPlayingSong.Artist : info.artist;
                 String title = info.title.Trim() == String.Empty ? CurrentlyPlayingSong.Name : info.title;
-                Span ar = new Span();
-                TextBlock block = new TextBlock();
-                block.Inlines.Add(new Bold(new Run(artist + " ")));
-                block.Inlines.Add(new Run(title));
+                String album = info.album.Trim() == String.Empty ? CurrentlyPlayingSong.Album : info.album;
                 //TextBlock na = new TextBlock();
                 //na.Text = o.Name;
                 //na.FontWeight = FontWeights.Normal;
                 //CurrentlyPlayingLabel.Content = o.Artist + " - " + o.Name;
-                CurrentlyPlayingLabel.Content = block;
+                CurrentlyPlayingLabel.Content = new Bold(new Run(title));
+                CurrentlyPlayingLabel2.Content = artist + " - " + album;
             }
             String url = CurrentlyPlayingSong.CoverArtFileName;
-            ImageBrush b = new ImageBrush(new BitmapImage(new Uri(url)));
+            Console.WriteLine("Cover URL: " + url);
+            var bmpImage = new BitmapImage(new Uri(url));
+            bmpImage.DownloadFailed += bmpImage_DownloadFailed;
+            ImageBrush b = new ImageBrush(bmpImage);
+            Cover.Background = b;
+        }
+
+        void bmpImage_DownloadFailed(object sender, ExceptionEventArgs e)
+        {
+            var bmpImage = new BitmapImage(new Uri("http://images.gs-cdn.net/static/albums/200_album.jpg"));
+            ImageBrush b = new ImageBrush(bmpImage);
             Cover.Background = b;
         }
     }

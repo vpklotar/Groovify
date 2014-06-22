@@ -42,12 +42,10 @@ C:\Users\Tim\Desktop\Groovify\src\Launcher\bin\Debug\Launcher.pdb
 C:\Users\Tim\Desktop\Groovify\src\Launcher\bin\Debug\MainClient.exe
 C:\Users\Tim\Desktop\Groovify\src\Launcher\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Tim\Desktop\Groovify\src\Launcher\bin\Debug\SciLorsGroovesharkAPI.dll
-C:\Users\Tim\Desktop\Groovify\src\Launcher\bin\Debug\NAudio.dll
 C:\Users\Tim\Desktop\Groovify\src\Launcher\bin\Debug\SciLors Logger.dll
 C:\Users\Tim\Desktop\Groovify\src\Launcher\bin\Debug\Mp3Header.dll
 C:\Users\Tim\Desktop\Groovify\src\Launcher\bin\Debug\SciLors UpdateCheck.dll
 C:\Users\Tim\Desktop\Groovify\src\Launcher\bin\Debug\MainClient.pdb
-C:\Users\Tim\Desktop\Groovify\src\Launcher\bin\Debug\NAudio.xml
 C:\Users\Tim\Desktop\Groovify\src\Launcher\obj\Debug\Launcher.csprojResolveAssemblyReference.cache
 C:\Users\Tim\Desktop\Groovify\src\Launcher\obj\Debug\Launcher.baml
 C:\Users\Tim\Desktop\Groovify\src\Launcher\obj\Debug\Launcher.g.cs
@@ -58,3 +56,5 @@ C:\Users\Tim\Desktop\Groovify\src\Launcher\obj\Debug\Launcher.Properties.Resourc
 C:\Users\Tim\Desktop\Groovify\src\Launcher\obj\Debug\Launcher.csproj.GenerateResource.Cache
 C:\Users\Tim\Desktop\Groovify\src\Launcher\obj\Debug\Launcher.exe
 C:\Users\Tim\Desktop\Groovify\src\Launcher\obj\Debug\Launcher.pdb
+C:\Users\Tim\Desktop\Groovify\src\Launcher\bin\Debug\Bass.Net.dll
+C:\Users\Tim\Desktop\Groovify\src\Launcher\bin\Debug\Bass.Net.xml

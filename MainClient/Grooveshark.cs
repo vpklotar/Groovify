@@ -12,7 +12,6 @@ using System.Threading;
 using SciLorsGroovesharkAPI.Groove;
 using System.Windows.Media;
 using System.ComponentModel;
-using NAudio.Wave;
 using Un4seen.Bass;
 using Un4seen.Bass.AddOn.Tags;
 using System.Windows.Interop;
@@ -566,7 +565,6 @@ namespace Launcher
             }
         }
 
-        private static WaveOut wave = null;
         private static Stream readStream = null;
         public static long contentLength = 0;
         public static void Play(string url)
@@ -611,12 +609,6 @@ namespace Launcher
             }));
         }
 
-        public static PlaybackState State()
-        {
-            if (wave == null) return PlaybackState.Stopped;
-            return wave.PlaybackState;
-        }
-
         public static long Position
         {
             get
@@ -656,13 +648,11 @@ namespace Launcher
 
         public static void Play()
         {
-            if (_CurrentChannel <= -1) return;
             Bass.BASS_ChannelPlay(_CurrentChannel, false);
         }
 
         public static void Pause()
         {
-            if (_CurrentChannel <= -1) return;
             Bass.BASS_ChannelPause(_CurrentChannel);
         }
 
@@ -912,8 +902,6 @@ namespace Launcher
                 if (!isDownloading && File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic) + "\\Groovify\\" + Artist + " - " + Album + " - " + Name + ".mp3"))
                 {
                     _streamURL = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic) + "\\Groovify\\" + Artist + " - " + Album + " - " + Name + ".mp3";
-                    var h = new Mp3FileReader(_streamURL);
-                    return (long)h.TotalTime.TotalSeconds;
                 }
                 return (long)_s.EstimateDuration;
             }
@@ -928,7 +916,7 @@ namespace Launcher
                     url = Grooveshark.GOOGLE_IMAGE_SEARCH_GET_FIRST_URL(Artist + " " + Album);
                     if (url == String.Empty || url == null) url = "http://images.gs-cdn.net/static/albums/70_album.jpg";
                 }
-                if (url != String.Empty && url != null && !url.Contains('/')) url = "http://images.gs-cdn.net/static/albums/70_" + url;
+                if (url != String.Empty && url != null && !url.Contains('/')) url = "http://images.gs-cdn.net/static/albums/200_" + url;
                 return url;
             }
         }
