@@ -31,7 +31,12 @@ namespace Launcher
         {
             get
             {
-                return new WindowInteropHelper(MainWindow.INSTANCE).Handle;
+                IntPtr re = IntPtr.Zero;
+                MainWindow.INSTANCE.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    re = new WindowInteropHelper(MainWindow.INSTANCE).Handle;
+                }));
+                return re;
             }
         }
         public static BASS_CHANNELINFO ChannelInfo
@@ -277,31 +282,23 @@ namespace Launcher
         public static GroovesharkPlaylistObject search(String querry)
         {
             GroovesharkPlaylistObject searchList = new GroovesharkPlaylistObject();
-            String r = HttpPost("http://tinysong.com/s/" + System.Net.WebUtility.UrlEncode(querry) + "?format=json&limit=64&key=16e37e8e9e47102d2f5fc8086790298f", "");
-            //r = r.Split('<')[0].ToString();
-            r = r.Replace("<html>", "").Replace("</html>", "").Replace("<body>", "").Replace("</body>", "").Replace("<head></head>", "");
-            JArray result = JArray.Parse(r);
-            //var res = Grooveshark.client.
-            for (int i = 0; i < result.Count; i++)
+            //String r = HttpPost("http://tinysong.com/s/" + System.Net.WebUtility.UrlEncode(querry) + "?format=json&limit=64&key=16e37e8e9e47102d2f5fc8086790298f", "");
+            ////r = r.Split('<')[0].ToString();
+            //r = r.Replace("<html>", "").Replace("</html>", "").Replace("<body>", "").Replace("</body>", "").Replace("<head></head>", "");
+            //JArray result = JArray.Parse(r);
+            ////var res = Grooveshark.client.
+            //for (int i = 0; i < result.Count; i++)
+            //{
+            //    var res = result[i];
+            //    GroovesharkSongObject obj = new GroovesharkSongObject() { SongID = Convert.ToInt32(res["SongID"].ToString()), Name = res["SongName"].ToString() };
+            //    searchList.addSong(obj);
+            //}
+            var res = Grooveshark.client.SearchArtist(querry).result.result;
+            for (int i = 0; i < res.Count; i++)
             {
-                var res = result[i];
-                GroovesharkSongObject obj = new GroovesharkSongObject() { SongID = Convert.ToInt32(res["SongID"].ToString()), Name = res["SongName"].ToString() };
-                searchList.addSong(obj);
+                var item = res[i];
+                searchList.addSong(new GroovesharkSongObject(item));
             }
-
-            /*if (querry.ToLower().StartsWith("gurl::"))
-            {
-                //searchList.addSong(GroovesharkSongObject.GetSongFromGroovifyURL(querry));
-            }
-            else
-            {
-                var res = Grooveshark.client.SearchArtist(querry).result.result;
-                for (int i = 0; i < res.Count; i++)
-                {
-                    var item = res[i];
-                    searchList.addSong(new GroovesharkSongObject(item));
-                }
-            }*/
             return searchList;
         }
 
@@ -461,7 +458,7 @@ namespace Launcher
                 String sessID = GetSessionID();*/
                 //String json = "{\"parameters\":{\"songID\":" + SongID + ",\"type\":16,\"country\":{\"CC4\":0,\"DMA\":0,\"CC1\":0,\"IPR\":0,\"CC2\":0,\"CC3\":2305843009213694000,\"ID\":190},\"mobile\":false,\"prefetch\":false},\"method\":\"getStreamKeyFromSongIDEx\",\"header\":{\"token\":\"" + GetRequestToken("getStreamKeyFromSongIDEx") + "\",\"privacy\":0,\"country\":{\"CC4\":0,\"DMA\":0,\"CC1\":0,\"IPR\":0,\"CC2\":0,\"CC3\":2305843009213694000,\"ID\":190},\"uuid\":\"01AB1DB6-C4DF-4F7B-AA95-495DC0B484F3\",\"client\":\"htmlshark\",\"session\":\"" + client.GetSessionIdFromApi() + "\",\"clientRevision\":\"20130520.14\"}}";
                 //String json = "{\"parameters\":{\"songID\":" + SongID + ",\"type\":16,\"country\":{\"CC4\":0,\"DMA\":0,\"CC1\":0,\"IPR\":0,\"CC2\":0,\"CC3\":2305843009213694000,\"ID\":190},\"mobile\":false,\"prefetch\":false},\"method\":\"getStreamKeyFromSongIDEx\",\"header\":{\"token\":\"" + GetRequestToken("getStreamKeyFromSongIDEx") + "\",\"privacy\":0,\"country\":{\"CC4\":0,\"DMA\":0,\"CC1\":0,\"IPR\":0,\"CC2\":0,\"CC3\":2305843009213694000,\"ID\":190},\"uuid\":\"01AB1DB6-C4DF-4F7B-AA95-495DC0B484F3\",\"client\":\"htmlshark\",\"session\":\"" + sessID + "\",\"clientRevision\":\"20130520.14\"}}";
-                String json = "{\"header\":{\"session\":\"12c75665779fc5862d87ee8200b91952\",\"client\":\"jsqueue\",\"uuid\":\"6D9B4599-EE13-4455-AF27-D1F6139CF60D\",\"clientRevision\":\"20130520\",\"privacy\":0,\"country\":{\"IPR\":0,\"CC2\":0,\"CC3\":2305843009213694000,\"ID\":190,\"CC4\":0,\"DMA\":0,\"CC1\":0},\"token\":\"179318e0b91debf15fbf5e8939b1220946ef9d4a7c6162\"},\"method\":\"getStreamKeyFromSongIDEx\",\"parameters\":{\"mobile\":false,\"songID\":"+SongID+",\"country\":{\"IPR\":0,\"CC2\":0,\"CC3\":2305843009213694000,\"ID\":190,\"CC4\":0,\"DMA\":0,\"CC1\":0},\"type\":16,\"prefetch\":false}}";
+                String json = "{\"header\":{\"session\":\"12c75665779fc5862d87ee8200b91952\",\"client\":\"jsqueue\",\"uuid\":\"6D9B4599-EE13-4455-AF27-D1F6139CF60D\",\"clientRevision\":\"20130520\",\"privacy\":0,\"country\":{\"IPR\":0,\"CC2\":0,\"CC3\":2305843009213694000,\"ID\":190,\"CC4\":0,\"DMA\":0,\"CC1\":0},\"token\":\"179318e0b91debf15fbf5e8939b1220946ef9d4a7c6162\"},\"method\":\"getStreamKeyFromSongIDEx\",\"parameters\":{\"mobile\":false,\"songID\":" + SongID + ",\"country\":{\"IPR\":0,\"CC2\":0,\"CC3\":2305843009213694000,\"ID\":190,\"CC4\":0,\"DMA\":0,\"CC1\":0},\"type\":16,\"prefetch\":false}}";
                 var res = HttpPost("http://grooveshark.com/more.php?getStreamKeyFromSongIDEx", json);
                 var j = Newtonsoft.Json.Linq.JObject.Parse(res);
                 String ip = j["result"]["ip"].ToString();
@@ -565,24 +562,22 @@ namespace Launcher
             }
         }
 
-        private static Stream readStream = null;
-        public static long contentLength = 0;
         public static void Play(string url)
         {
-            Grooveshark.Stop();
-
-            if (url.ToLower().StartsWith("http"))
-            {
-                _CurrentChannel = Bass.BASS_StreamCreateURL(url, 0, BASSFlag.BASS_ASYNCFILE, null, Grooveshark.Handle);
-            }
-            else
-            {
-                _CurrentChannel = Bass.BASS_StreamCreateFile(url, 0, 0, BASSFlag.BASS_ASYNCFILE);
-            }
-            Bass.BASS_ChannelPlay(_CurrentChannel, false);
-
             System.Threading.ThreadPool.QueueUserWorkItem(new WaitCallback((Object o) =>
             {
+                Grooveshark.Stop();
+
+                if (url.ToLower().StartsWith("http"))
+                {
+                    _CurrentChannel = Bass.BASS_StreamCreateURL(url, 0, BASSFlag.BASS_ASYNCFILE, null, Grooveshark.Handle);
+                }
+                else
+                {
+                    _CurrentChannel = Bass.BASS_StreamCreateFile(url, 0, 0, BASSFlag.BASS_ASYNCFILE);
+                }
+
+                Bass.BASS_ChannelPlay(_CurrentChannel, false);
                 int t = 0;
                 do
                 {
@@ -627,7 +622,7 @@ namespace Launcher
         public static void Seek(int sec)
         {
             var pos = Bass.BASS_ChannelSeconds2Bytes(_CurrentChannel, sec);
-            Console.WriteLine(Bass.BASS_ChannelSetPosition(_CurrentChannel, pos));
+            Bass.BASS_ChannelSetPosition(_CurrentChannel, pos);
         }
 
         public static long Length
@@ -659,6 +654,7 @@ namespace Launcher
         public static void Stop()
         {
             Bass.BASS_ChannelStop(_CurrentChannel);
+            Bass.BASS_StreamFree(_CurrentChannel);
         }
     }
 

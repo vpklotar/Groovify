@@ -54,23 +54,20 @@ namespace Launcher
 
         public MainWindow()
         {
-            //System.Windows.MessageBox.Show("WIN TEST 1");
             InitializeComponent();
             INSTANCE = this;
             this.Loaded += MainWindow_Loaded;
-            //this.Closed += MainWindow_Closed;
+            this.Closed += MainWindow_Closed;
             this.SizeChanged += MainWindow_SizeChanged;
             this.Songs.MouseDoubleClick += Songs_MouseDoubleClick;
-            //System.Windows.MessageBox.Show("WIN TEST 2");
-            Grooveshark.GetAllLocalyCachedPlaylists();
-            //System.Windows.MessageBox.Show("WIN TEST 3");
 
-            //bool res = User32.RegisterHotKey(new WindowInteropHelper(this).Handle, this.PersistId, 0x0000, (int)System.Windows.Forms.Keys.MediaPlayPause);
+            Grooveshark.GetAllLocalyCachedPlaylists();
+            
 
             this.MouseDown += MainWindow_MouseDown;
             this.SourceInitialized += OnSourceInitialized;
             this.KeyDown += MainWindow_KeyDown;
-            //System.Windows.MessageBox.Show("WIN TEST 4");
+
             DownloadPool.DownloadComplete += DownloadPool_DownloadComplete;
             DownloadPool.ProgressChanged += DownloadPool_ProgressChanged;
 
@@ -102,13 +99,10 @@ namespace Launcher
             Theme.Click += Theme_Click;
             TopPanelContext.Items.Add(Theme);
             TopPanel.ContextMenu = TopPanelContext;
-            //System.Windows.MessageBox.Show("WIN TEST 5");
 
             System.Threading.Timer t = new System.Threading.Timer(updatePos);
             t.Change(0, 1000);
-            //System.Windows.MessageBox.Show("WIN TEST 6");
             //Launcher.Theme.Apply();
-            //System.Windows.MessageBox.Show("WIN TEST 7");
         }
 
         void Theme_Click(object sender, RoutedEventArgs e)
@@ -118,6 +112,7 @@ namespace Launcher
 
         void MainWindow_Closed(object sender, EventArgs e)
         {
+            Grooveshark.Stop();
             Grooveshark.SavePlaylists();
         }
 
@@ -252,7 +247,7 @@ namespace Launcher
             }
             else if (Grooveshark.ChannelIsActive == BASSActive.BASS_ACTIVE_STOPPED && CurrentlyPlayingSong != null)
             {
-                if (Grooveshark.LengthSecounds - Grooveshark.PositionSecounds <= 3) playNext();
+                //if (Grooveshark.LengthSecounds - Grooveshark.PositionSecounds <= 3) this.Dispatcher.BeginInvoke(new Action(() => playNext()));
             }
         }
 
@@ -424,7 +419,7 @@ namespace Launcher
             System.Threading.ThreadPool.QueueUserWorkItem(new System.Threading.WaitCallback((Object oo) =>
             {
                 playedSongs.Add(o);
-                playedSongsIndex = playedSongs.Count - 2;
+                playedSongsIndex = playedSongs.Count - 1;
                 bool next = true;
                 int i = 0;
                 String songURL = "";
@@ -478,7 +473,6 @@ namespace Launcher
                     Console.WriteLine("SongURL: " + songURL);
                     if (songURL == "") return;
                     Grooveshark.Play(songURL);
-                    Grooveshark.contentLength = o.EstimatedDuration;
                     state = "Playing";
                 }));
             }));
