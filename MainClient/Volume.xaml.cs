@@ -123,7 +123,8 @@ namespace Launcher
             //val = 100 - val;
             //MainWindow.INSTANCE.player.Volume = val / 100F;
             Value = val;
-            Un4seen.Bass.Bass.BASS_SetVolume(val / 1000F);
+            Console.WriteLine("VOL: " + val);
+            Grooveshark.SetBassAttrib(Un4seen.Bass.BASSAttribute.BASS_ATTRIB_VOL, val / 100F);
         }
     }
 }

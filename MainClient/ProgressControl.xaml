@@ -4,9 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" Height="4" Width="505" MouseLeftButtonUp="UserControl_MouseLeftButtonUp" PreviewMouseLeftButtonUp="UserControl_PreviewMouseLeftButtonUp">
-    <Grid Background="White" PreviewMouseLeftButtonUp="Grid_PreviewMouseLeftButtonUp">
-        <Grid x:Name="ProgressView" HorizontalAlignment="Left" Width="0" Background="#FFE5E5E5"/>
-        <Ellipse x:Name="Knob" Fill="#FFA5A5A5" HorizontalAlignment="Left" Margin="1,-2,0,-2" Width="8"/>
+    <Border BorderThickness="1" Margin="0,-2,0,0" BorderBrush="#FFE5E5E5">
+        <Grid Background="White" PreviewMouseLeftButtonUp="Grid_PreviewMouseLeftButtonUp">
+            <Grid x:Name="ProgressView" HorizontalAlignment="Left" Width="0" Background="#FFE5E5E5"/>
+            <Ellipse x:Name="Knob" Fill="#FFA5A5A5" HorizontalAlignment="Left" Margin="0,-3" Width="10"/>
 
-    </Grid>
+        </Grid>
+    </Border>
 </UserControl>

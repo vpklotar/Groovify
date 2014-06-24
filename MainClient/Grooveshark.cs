@@ -78,11 +78,16 @@ namespace Launcher
             }
         }
 
+        public static bool SetBassAttrib(BASSAttribute attrib, float val)
+        {
+            return Bass.BASS_ChannelSetAttribute(_CurrentChannel, attrib, val);
+        }
+
         public static void UPDATE()
         {
 
         }
-
+        
         public static Boolean updateAvilable()
         {
             return false;
@@ -577,6 +582,8 @@ namespace Launcher
                     _CurrentChannel = Bass.BASS_StreamCreateFile(url, 0, 0, BASSFlag.BASS_ASYNCFILE);
                 }
 
+                SetBassAttrib(BASSAttribute.BASS_ATTRIB_VOL, MainWindow.INSTANCE.VolumeControl.Value / 100F);
+                if (_CurrentChannel != null) handles.Add(_CurrentChannel);
                 Bass.BASS_ChannelPlay(_CurrentChannel, false);
                 int t = 0;
                 do
@@ -653,8 +660,28 @@ namespace Launcher
 
         public static void Stop()
         {
-            Bass.BASS_ChannelStop(_CurrentChannel);
-            Bass.BASS_StreamFree(_CurrentChannel);
+            for (int i = 0; i < handles.Count; i++)
+            {
+                stopAndFreeChannel(handles[i]);
+                handles.RemoveAt(i);
+            }
+        }
+
+        public static void ClearChannelsExceptPlaing()
+        {
+            for (int i = 0; i < handles.Count; i++)
+            {
+                if (handles[i] == _CurrentChannel) continue;
+                stopAndFreeChannel(handles[i]);
+                handles.RemoveAt(i);
+            }
+        }
+
+        private static List<int> handles = new List<int>();
+        private static void stopAndFreeChannel(int handle)
+        {
+            Bass.BASS_ChannelStop(handle);
+            Bass.BASS_StreamFree(handle);
         }
     }
 

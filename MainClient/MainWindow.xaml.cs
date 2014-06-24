@@ -215,6 +215,7 @@ namespace Launcher
         {
             if (Grooveshark.ChannelIsActive == BASSActive.BASS_ACTIVE_PLAYING)
             {
+                Grooveshark.ClearChannelsExceptPlaing();
                 this.Dispatcher.Invoke(new Action(() =>
                 {
                     progress.Maximum = Grooveshark.LengthSecounds;
@@ -245,9 +246,9 @@ namespace Launcher
                     CurrentTimeLeftLabel.Content = "-" + tMin + ":" + vSec;
                 }));
             }
-            else if (Grooveshark.ChannelIsActive == BASSActive.BASS_ACTIVE_STOPPED && CurrentlyPlayingSong != null)
+            else if (Grooveshark.ChannelIsActive == BASSActive.BASS_ACTIVE_STOPPED && CurrentlyPlayingSong != null && Grooveshark.LengthSecounds > 125)
             {
-                //if (Grooveshark.LengthSecounds - Grooveshark.PositionSecounds <= 3) this.Dispatcher.BeginInvoke(new Action(() => playNext()));
+                if (Grooveshark.LengthSecounds - Grooveshark.PositionSecounds <= 3) this.Dispatcher.BeginInvoke(new Action(() => playNext()));
             }
         }
 
@@ -539,7 +540,7 @@ namespace Launcher
             // UI Stuff
             PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPlay.png"));
             CurrentlyPlayingLabel.Content = o.Name;
-            ImageBrush b = new ImageBrush(new BitmapImage(new Uri("http://images.gs-cdn.net/static/albums/70_" + (o.CoverArtFileName == "" ? "album.jpg" : o.CoverArtFileName))));
+            ImageBrush b = new ImageBrush(new BitmapImage(new Uri("http://images.gs-cdn.net/static/albums/200_" + (o.CoverArtFileName == "" ? "album.jpg" : o.CoverArtFileName))));
             Cover.Background = b;
 
             playedSongsIndex--;

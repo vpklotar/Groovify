@@ -63,13 +63,18 @@ namespace Launcher
         public ProgressControl()
         {
             InitializeComponent();
+            SizeChanged += ProgressControl_SizeChanged;
+        }
+
+        void ProgressControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Knob.Width = Knob.ActualHeight;
         }
 
         private void UserControl_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Point pos = Mouse.GetPosition(MainWindow.INSTANCE.progress);
             int val = (int)((pos.X / ActualWidth) * Maximum); // Percentage clicked
-            Console.WriteLine("Jump to time sec: " + val);
             Grooveshark.Seek(val);
             Value = val;
         }
