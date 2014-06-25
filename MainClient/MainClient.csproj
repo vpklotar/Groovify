@@ -157,19 +157,13 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -179,44 +173,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\search.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\GroovifyLogo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\GroovifyLogoSmall.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\GroovifyLogoSmall.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\GroovifyNext.png" />
-    <Resource Include="Resources\GroovifyNext_drak.png" />
-    <Resource Include="Resources\GroovifyPlay.png" />
-    <Resource Include="Resources\GroovifyPlay_dark.png" />
-    <Resource Include="Resources\GroovifyPrev.png" />
-    <Resource Include="Resources\GroovifyPrev_dark.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\GroovifyRepeat.png" />
-    <Resource Include="Resources\GroovifyRepeat_dark.png" />
-    <Resource Include="Resources\GroovifyShuffle.png" />
-    <Resource Include="Resources\GroovifyShuffle_dark.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\loading.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\SpeakerH.png" />
-    <Resource Include="Resources\SpeakerL.png" />
-    <Resource Include="Resources\SpeakerM.png" />
-    <Resource Include="Resources\SpeakerMute.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Config.gif" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -234,6 +190,78 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Config.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\GroovifyLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\GroovifyLogoSmall.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\GroovifyLogoSmall.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\groovifyrepeat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\groovifyrepeat_dark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\groovifyshuffle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\groovifyshuffle_dark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Maximize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Minimize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\next.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\next_active.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\pause_active.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\play.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\prev.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\prev_active.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\settings[1].gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\speakerh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\speakerl.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\speakerm.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\speakermute.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Debug\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

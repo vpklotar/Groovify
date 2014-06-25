@@ -165,12 +165,12 @@ namespace Launcher
                     {
                         Grooveshark.Pause();
                         state = "Paused";
-                        PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPlay_dark.png"));
+                        PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/Play.png"));
                         return;
                     }
                     Grooveshark.Play();
                     state = "Playing";
-                    PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPlay.png"));
+                    PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/Pause_active.png"));
                 }
                 catch (Exception ex)
                 {
@@ -485,7 +485,7 @@ namespace Launcher
             {
                 Grooveshark.Stop();
                 state = "Stopped";
-                PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPlay_dark.png"));
+                PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/Play.png"));
                 return;
             }
             if (shuffle)
@@ -506,7 +506,7 @@ namespace Launcher
                     {
                         Grooveshark.Stop();
                         state = "Stopped";
-                        PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPlay_dark.png"));
+                        PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/Play.png"));
                     }
                 }
             }
@@ -514,7 +514,7 @@ namespace Launcher
             {
                 Grooveshark.Stop();
                 state = "Stopped";
-                PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPlay_dark.png"));
+                PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/Play.png"));
                 return;
             }
             else
@@ -530,7 +530,7 @@ namespace Launcher
             {
                 Grooveshark.Stop();
                 state = "Stopped";
-                PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPlay_dark.png"));
+                PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/Play.png"));
                 return;
             }
             GroovesharkSongObject o = playedSongs[playedSongsIndex];
@@ -538,7 +538,7 @@ namespace Launcher
             state = "Playing";
 
             // UI Stuff
-            PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPlay.png"));
+            PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/Pause_active.png"));
             CurrentlyPlayingLabel.Content = o.Name;
             ImageBrush b = new ImageBrush(new BitmapImage(new Uri("http://images.gs-cdn.net/static/albums/200_" + (o.CoverArtFileName == "" ? "album.jpg" : o.CoverArtFileName))));
             Cover.Background = b;
@@ -613,12 +613,12 @@ namespace Launcher
                 {
                     Grooveshark.Pause();
                     state = "Paused";
-                    PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPlay_dark.png"));
+                    PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/Play.png"));
                     return;
                 }
                 Grooveshark.Play();
                 state = "Playing";
-                PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPlay.png"));
+                PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/Pause_active.png"));
             }
             catch (Exception ex)
             {
@@ -643,18 +643,18 @@ namespace Launcher
 
         private void PlayButton_MouseEnter(object sender, MouseEventArgs e)
         {
-            PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPlay.png"));
+            PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/Pause_active.png"));
         }
 
         private void PlayButton_MouseLeave(object sender, MouseEventArgs e)
         {
             if (state == "Paused" || state == "Stopped")
             {
-                PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPlay_dark.png"));
+                PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/Play.png"));
             }
             else if (state == "Playing")
             {
-                PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPaused.png"));
+                PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/Pause_active.png"));
             }
         }
 
@@ -966,16 +966,6 @@ namespace Launcher
             }
         }
 
-        private void state_MouseEnter(object sender, MouseEventArgs e)
-        {
-            State.Fill = new SolidColorBrush(Color.FromArgb(255, 54, 209, 98));
-        }
-
-        private void state_MouseLeave(object sender, MouseEventArgs e)
-        {
-            if (!isMaxmimized) State.Fill = new SolidColorBrush(Color.FromArgb(255, 163, 168, 178));
-        }
-
         private void State_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             ToggleMaximize();
@@ -1208,12 +1198,12 @@ namespace Launcher
                         {
                             Grooveshark.Pause();
                             state = "Paused";
-                            PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPlay_dark.png"));
+                            PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/Play.png"));
                             return IntPtr.Zero;
                         }
                         Grooveshark.Play();
                         state = "Playing";
-                        PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPaused.png"));
+                        PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/Pause_active.png"));
                     }
                     catch (Exception ex)
                     {
@@ -1226,7 +1216,7 @@ namespace Launcher
                     {
                         Grooveshark.Pause();
                         state = "Paused";
-                        PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPlay_dark.png"));
+                        PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/Play.png"));
                         return IntPtr.Zero;
                     }
                 }
@@ -1342,7 +1332,7 @@ namespace Launcher
 
         internal void BuildSongUI()
         {
-            PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/GroovifyPaused.png"));
+            PlayButton.Source = new BitmapImage(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(0, System.Reflection.Assembly.GetExecutingAssembly().Location.LastIndexOf('\\')) + "/Resources/Pause_active.png"));
             var info = Grooveshark.ChannelTag;
             if (info != null)
             {
