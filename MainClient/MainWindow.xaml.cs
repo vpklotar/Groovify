@@ -546,26 +546,6 @@ namespace Launcher
             playedSongsIndex--;
         }
 
-        private void Close_MouseEnter(object sender, MouseEventArgs e)
-        {
-            Close.Fill = new SolidColorBrush(Color.FromArgb(255, 209, 54, 54));
-        }
-
-        private void Close_MouseLeave(object sender, MouseEventArgs e)
-        {
-            Close.Fill = new SolidColorBrush(Color.FromArgb(255, 163, 168, 178));
-        }
-
-        private void Min_MouseLeave(object sender, MouseEventArgs e)
-        {
-            Min.Fill = new SolidColorBrush(Color.FromArgb(255, 163, 168, 178));
-        }
-
-        private void Min_MouseEnter(object sender, MouseEventArgs e)
-        {
-            Min.Fill = new SolidColorBrush(Color.FromArgb(255, 54, 178, 209));
-        }
-
         private void SearchBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Return)
@@ -1359,6 +1339,11 @@ namespace Launcher
             var bmpImage = new BitmapImage(new Uri("http://images.gs-cdn.net/static/albums/200_album.jpg"));
             ImageBrush b = new ImageBrush(bmpImage);
             Cover.Background = b;
+        }
+
+        private void Min_(object sender, MouseButtonEventArgs e)
+        {
+
         }
     }
 }

@@ -1171,12 +1171,6 @@
                     </Image.Style>
                 </Image>
                 <Label x:Name="CurrentlyPlayingLabel" Content="   " HorizontalContentAlignment="Center" Margin="317,-3,348,0" VerticalAlignment="Top" Foreground="#FF7B7B7B" MouseLeftButtonDown="CurrentlyPlayingLabel_MouseLeftButtonDown" FontSize="14"/>
-                <Ellipse x:Name="Min" Fill="#FFA2A6AF" Height="10" Margin="0,4,40,0" VerticalAlignment="Top" MouseLeftButtonDown="Hide_LeftButtonDown" MouseLeave="Min_MouseLeave" MouseEnter="Min_MouseEnter" HorizontalAlignment="Right" Width="10"/>
-                <Ellipse x:Name="Close" Height="10" Margin="0,4,10,0" VerticalAlignment="Top" MouseLeftButtonDown="Ellipse_MouseLeftButtonDown" Fill="#FFA2A6AF" MouseEnter="Close_MouseEnter" MouseLeave="Close_MouseLeave" HorizontalAlignment="Right" Width="10">
-                    <Ellipse.Style>
-                        <Style/>
-                    </Ellipse.Style>
-                </Ellipse>
                 <local:ProgressControl x:Name="progress" Height="5" Margin="351,39,380,0" VerticalAlignment="Top" Width="Auto" MouseLeftButtonUp="progress_MouseLeftButtonUp" PreviewMouseLeftButtonUp="progress_PreviewMouseLeftButtonUp"/>
                 <local:Volume x:Name="VolumeControl" Margin="162,26,0,0" VerticalAlignment="Top" Height="4" Width="109" HorizontalAlignment="Left"/>
                 <Image x:Name="Speaker" HorizontalAlignment="Left" Margin="142,20,0,0" Width="16" Height="16" VerticalAlignment="Top" Source="Resources/SpeakerH.png">
@@ -1194,7 +1188,27 @@
                 <Label x:Name="CurrentTimeLabel" Content="0:00" HorizontalAlignment="Left" Margin="317,27,0,0" VerticalAlignment="Top" Width="32"/>
                 <Label x:Name="CurrentTimeLeftLabel" Content="-0:00" HorizontalAlignment="Right" Margin="0,27,333,0" VerticalAlignment="Top" Width="47"/>
                 <Label x:Name="CurrentlyPlayingLabel2" Content="   " HorizontalContentAlignment="Center" Margin="317,16,348,0" VerticalAlignment="Top" Foreground="#FF7B7B7B" MouseLeftButtonDown="CurrentlyPlayingLabel_MouseLeftButtonDown"/>
-                <Image HorizontalAlignment="Left" Height="16" Margin="1107,21,0,0" VerticalAlignment="Top" Width="20" MouseLeftButtonDown="State_MouseLeftButtonDown" Source="Resources/Maximize.png" RenderTransformOrigin="0.5,0.5">
+                <Image HorizontalAlignment="Right" Height="16" Margin="0,21,24,0" VerticalAlignment="Top" Width="20" MouseLeftButtonDown="State_MouseLeftButtonDown" Source="Resources/Maximize.png" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleX="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+                <Image HorizontalAlignment="Right" Height="16" Margin="0,21,3,0" VerticalAlignment="Top" Width="20" MouseLeftButtonDown="Ellipse_MouseLeftButtonDown" Source="Resources/Close.png" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleX="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+                <Image HorizontalAlignment="Right" Height="16" Margin="0,25,45,0" VerticalAlignment="Top" Width="20" MouseLeftButtonDown="Hide_LeftButtonDown" Source="Resources/Minimize.png" RenderTransformOrigin="0.5,0.5">
                     <Image.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform ScaleX="-1"/>

@@ -937,7 +937,7 @@ namespace Launcher
                 if (url == String.Empty || url == null)
                 {
                     url = Grooveshark.GOOGLE_IMAGE_SEARCH_GET_FIRST_URL(Artist + " " + Album);
-                    if (url == String.Empty || url == null) url = "http://images.gs-cdn.net/static/albums/70_album.jpg";
+                    if (url == String.Empty || url == null) url = "http://images.gs-cdn.net/static/albums/200_album.jpg";
                 }
                 if (url != String.Empty && url != null && !url.Contains('/')) url = "http://images.gs-cdn.net/static/albums/200_" + url;
                 return url;
